@@ -30,28 +30,21 @@ export const loadAppsData = async (): Promise<App[]> => {
 }
 
 export function getAppIcon(appName: string): string {
-  // 生成基于应用名称的美观图标
-  const firstChar = appName.charAt(0).toUpperCase();
-  const secondChar = appName.length > 1 ? appName.charAt(1).toUpperCase() : '';
-  const initials = firstChar + secondChar;
+  if (!appName) {
+    return '/icon/start.png';
+  }
   
-  // 使用多种颜色方案
-  const colors = [
-    { bg: '4F46E5', text: 'FFFFFF' }, // 靛蓝
-    { bg: '059669', text: 'FFFFFF' }, // 绿色
-    { bg: 'DC2626', text: 'FFFFFF' }, // 红色
-    { bg: 'D97706', text: 'FFFFFF' }, // 橙色
-    { bg: '7C3AED', text: 'FFFFFF' }, // 紫色
-    { bg: '0891B2', text: 'FFFFFF' }, // 青色
-    { bg: 'BE185D', text: 'FFFFFF' }, // 粉色
-    { bg: '65A30D', text: 'FFFFFF' }  // 石灰绿
-  ];
-  
-  // 根据应用名称选择颜色
-  const colorIndex = appName.charCodeAt(0) % colors.length;
-  const color = colors[colorIndex];
-  
-  return `https://via.placeholder.com/64x64/${color.bg}/${color.text}?text=${encodeURIComponent(initials)}`;
+  // 尝试使用本地图标文件
+  const iconPath = `/icon/${appName}.png`;
+  return iconPath;
+}
+
+// 辅助函数：处理图标加载错误
+export function handleIconError(event: Event, appName: string): void {
+  const img = event.target as HTMLImageElement;
+  if (img.src !== '/icon/start.png') {
+    img.src = '/icon/start.png';
+  }
 }
 
 export function calculateStats(apps: App[]): AppStats {
