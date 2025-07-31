@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # Large files and data
-# Note: icon/ is now needed for GitHub CDN
+icon/
 *.csv
 *.py
 *.md
@@ -32,6 +32,8 @@ dist-ssr
 !package*.json
 !index.html
 列表.txt
+*.html
+!index.html
 
 # Vercel
 .vercel
