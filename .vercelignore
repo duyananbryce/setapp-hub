@@ -1,0 +1,17 @@
+# Ignore large files and folders that are not needed for deployment
+# Ignore icon directories
+icon/
+public/icon/
+Apps for your tasks ｜ Setapp (2025_7_31 16：21：36).html
+列表.txt
+process_apps.py
+complete_descriptions.py
+enhance_descriptions.py
+*.csv
+Setapp*.md
+*.py
+.trae/
+node_modules/
+.git/
+*.log
+.DS_Store
