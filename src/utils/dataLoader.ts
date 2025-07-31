@@ -29,15 +29,11 @@ export const loadAppsData = async (): Promise<App[]> => {
   }
 }
 
-export function getAppIcon(appName: string): string {
-  if (!appName) {
-    return '/icon/start.png';
-  }
-  
-  // 尝试使用本地图标文件
-  const iconPath = `/icon/${appName}.png`;
-  return iconPath;
-}
+export const getAppIcon = (appName: string): string => {
+  // Try to use local icon file first
+  const iconFileName = `${appName}.png`;
+  return `/icon/${iconFileName}`;
+};
 
 // 辅助函数：处理图标加载错误
 export function handleIconError(event: Event, appName: string): void {

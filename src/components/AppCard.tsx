@@ -14,6 +14,8 @@ export default function AppCard({ app, viewMode = 'grid' }: AppCardProps) {
   
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     handleIconError(e.nativeEvent, app.名称);
+    // Fallback to default icon
+    (e.target as HTMLImageElement).src = '/icon/start.png';
   };
   
   const renderStars = (rating: number) => {
