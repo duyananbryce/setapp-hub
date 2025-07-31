@@ -45,13 +45,14 @@ export default function AppCard({ app, viewMode = 'grid' }: AppCardProps) {
   };
   
   const getPlatformBadges = (platform: string) => {
+    if (!platform) return [];
     const platforms = platform.split(',').map(p => p.trim());
     return platforms.map((p, index) => (
       <span 
         key={index}
         className={`px-2 py-1 text-xs rounded-full ${
-          p.includes('Mac') ? 'bg-blue-100 text-blue-800' :
-          p.includes('iOS') ? 'bg-green-100 text-green-800' :
+          p?.includes('Mac') ? 'bg-blue-100 text-blue-800' :
+          p?.includes('iOS') ? 'bg-green-100 text-green-800' :
           'bg-purple-100 text-purple-800'
         }`}
       >

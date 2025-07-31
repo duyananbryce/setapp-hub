@@ -1,8 +1,8 @@
 export interface App {
   名称: string;
   功能描述: string;
-  Setapp链接: string;
-  官方网站: string;
+  Setapp链接?: string;
+  官方网站?: string;
   官方订阅价格: number;
   评分: number;
   平台: string;

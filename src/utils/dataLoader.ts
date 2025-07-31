@@ -38,15 +38,15 @@ export function getAppIcon(appName: string): string {
 
 export function calculateStats(apps: App[]): AppStats {
   const totalApps = apps.length;
-  const macApps = apps.filter(app => app.平台.includes('Mac')).length;
-  const iosApps = apps.filter(app => app.平台.includes('iOS')).length;
-  const crossPlatformApps = apps.filter(app => app.平台.includes(',') || app.平台.includes('&')).length;
+  const macApps = apps.filter(app => app.平台?.includes('Mac')).length;
+  const iosApps = apps.filter(app => app.平台?.includes('iOS')).length;
+  const crossPlatformApps = apps.filter(app => app.平台?.includes(',') || app.平台?.includes('&')).length;
   
-  const totalPrice = apps.reduce((sum, app) => sum + app.官方订阅价格, 0);
-  const averagePrice = totalPrice / totalApps;
+  const totalPrice = apps.reduce((sum, app) => sum + (app.官方订阅价格 || 0), 0);
+  const averagePrice = totalApps > 0 ? totalPrice / totalApps : 0;
   
-  const totalRating = apps.reduce((sum, app) => sum + app.评分, 0);
-  const averageRating = totalRating / totalApps;
+  const totalRating = apps.reduce((sum, app) => sum + (app.评分 || 0), 0);
+  const averageRating = totalApps > 0 ? totalRating / totalApps : 0;
   
   return {
     totalApps,
@@ -63,15 +63,17 @@ export function filterApps(apps: App[], filters: any): App[] {
     // 搜索过滤
     if (filters.searchTerm) {
       const searchLower = filters.searchTerm.toLowerCase();
-      if (!app.名称.toLowerCase().includes(searchLower) && 
-          !app.功能描述.toLowerCase().includes(searchLower)) {
+      const appName = app.名称?.toLowerCase() || '';
+      const appDesc = app.功能描述?.toLowerCase() || '';
+      if (!appName.includes(searchLower) && !appDesc.includes(searchLower)) {
         return false;
       }
     }
     
     // 平台过滤
     if (filters.platform && filters.platform !== 'all') {
-      const appPlatforms = app.平台.toLowerCase().split(',').map(p => p.trim());
+      const platformStr = app.平台 || '';
+      const appPlatforms = platformStr.toLowerCase().split(',').map(p => p.trim());
       if (!appPlatforms.includes(filters.platform.toLowerCase())) {
         return false;
       }
@@ -80,13 +82,14 @@ export function filterApps(apps: App[], filters: any): App[] {
     // 价格范围过滤
     if (filters.priceRange) {
       const [minPrice, maxPrice] = filters.priceRange;
-      if (app.官方订阅价格 < minPrice || app.官方订阅价格 > maxPrice) {
+      const appPrice = app.官方订阅价格 || 0;
+      if (appPrice < minPrice || appPrice > maxPrice) {
         return false;
       }
     }
     
     // 评分过滤
-    if (filters.minRating && app.评分 < filters.minRating) {
+    if (filters.minRating && (app.评分 || 0) < filters.minRating) {
       return false;
     }
     
@@ -105,12 +108,12 @@ export function sortApps(apps: App[], sortBy: string, sortOrder: 'asc' | 'desc')
         bValue = b.名称;
         break;
       case 'price':
-        aValue = a.官方订阅价格;
-        bValue = b.官方订阅价格;
+        aValue = a.官方订阅价格 || 0;
+        bValue = b.官方订阅价格 || 0;
         break;
       case 'rating':
-        aValue = a.评分;
-        bValue = b.评分;
+        aValue = a.评分 || 0;
+        bValue = b.评分 || 0;
         break;
       case 'platform':
         aValue = a.平台;
