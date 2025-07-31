@@ -26,11 +26,11 @@ dist-ssr
 # Large files and data
 icon/
 *.csv
-*.html
 *.py
 *.md
 !README.md
 !package*.json
+!index.html
 列表.txt
 
 # Vercel
