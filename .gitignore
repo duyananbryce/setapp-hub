@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # Large files and data
-icon/
+# Note: icon/ is now needed for GitHub CDN
 *.csv
 *.py
 *.md
