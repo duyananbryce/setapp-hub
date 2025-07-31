@@ -13,7 +13,11 @@ export default function AppCard({ app, viewMode = 'grid' }: AppCardProps) {
   const iconSrc = getAppIcon(app.名称);
   
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = '/icon/start.png'; // 默认图标
+    // 如果图标加载失败，使用一个简单的默认图标
+    const target = e.currentTarget;
+    const appName = app.名称 || 'App';
+    const firstChar = appName.charAt(0).toUpperCase();
+    target.src = `https://via.placeholder.com/64x64/6B7280/FFFFFF?text=${encodeURIComponent(firstChar)}`;
   };
   
   const renderStars = (rating: number) => {

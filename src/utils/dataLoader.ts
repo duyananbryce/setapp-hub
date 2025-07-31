@@ -30,10 +30,28 @@ export const loadAppsData = async (): Promise<App[]> => {
 }
 
 export function getAppIcon(appName: string): string {
-  // 使用在线图标服务或默认图标
-  // 这里可以使用应用名称生成一个默认的图标URL
-  const encodedName = encodeURIComponent(appName);
-  return `https://via.placeholder.com/64x64/4F46E5/FFFFFF?text=${encodedName.slice(0, 2)}`;
+  // 生成基于应用名称的美观图标
+  const firstChar = appName.charAt(0).toUpperCase();
+  const secondChar = appName.length > 1 ? appName.charAt(1).toUpperCase() : '';
+  const initials = firstChar + secondChar;
+  
+  // 使用多种颜色方案
+  const colors = [
+    { bg: '4F46E5', text: 'FFFFFF' }, // 靛蓝
+    { bg: '059669', text: 'FFFFFF' }, // 绿色
+    { bg: 'DC2626', text: 'FFFFFF' }, // 红色
+    { bg: 'D97706', text: 'FFFFFF' }, // 橙色
+    { bg: '7C3AED', text: 'FFFFFF' }, // 紫色
+    { bg: '0891B2', text: 'FFFFFF' }, // 青色
+    { bg: 'BE185D', text: 'FFFFFF' }, // 粉色
+    { bg: '65A30D', text: 'FFFFFF' }  // 石灰绿
+  ];
+  
+  // 根据应用名称选择颜色
+  const colorIndex = appName.charCodeAt(0) % colors.length;
+  const color = colors[colorIndex];
+  
+  return `https://via.placeholder.com/64x64/${color.bg}/${color.text}?text=${encodeURIComponent(initials)}`;
 }
 
 export function calculateStats(apps: App[]): AppStats {
