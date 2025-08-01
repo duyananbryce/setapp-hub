@@ -1,17 +1,33 @@
 # Ignore large files and folders that are not needed for deployment
-# Ignore icon directories
+# Keep only essential files for Vercel deployment
+
+# Large data files
 icon/
 public/icon/
-Apps for your tasks ｜ Setapp (2025_7_31 16：21：36).html
-列表.txt
-process_apps.py
-complete_descriptions.py
-enhance_descriptions.py
 *.csv
-Setapp*.md
 *.py
+*.html
+!index.html
+*.md
+!README.md
+列表.txt
+Setapp*.md
+
+# Development files
 .trae/
 node_modules/
 .git/
 *.log
 .DS_Store
+
+# Build artifacts
+dist/
+build/
+.next/
+.nuxt/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo

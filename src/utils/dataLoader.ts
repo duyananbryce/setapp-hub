@@ -30,17 +30,15 @@ export const loadAppsData = async (): Promise<App[]> => {
 }
 
 export const getAppIcon = (appName: string): string => {
-  // Use GitHub as image CDN to avoid uploading large files to Vercel
+  // Use local icon directory
   const iconFileName = `${appName}.png`;
-  const githubBaseUrl = 'https://raw.githubusercontent.com/duyananbryce/setapp-apps-showcase/main/icon';
-  return `${githubBaseUrl}/${iconFileName}`;
+  return `/icon/${iconFileName}`;
 };
 
 // 辅助函数：处理图标加载错误
 export function handleIconError(event: Event, appName: string): void {
   const img = event.target as HTMLImageElement;
-  const githubBaseUrl = 'https://raw.githubusercontent.com/duyananbryce/setapp-apps-showcase/main/icon';
-  const fallbackIcon = `${githubBaseUrl}/start.png`;
+  const fallbackIcon = `/icon/start.png`;
   if (img.src !== fallbackIcon) {
     img.src = fallbackIcon;
   }
