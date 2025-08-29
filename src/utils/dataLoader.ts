@@ -33,15 +33,17 @@ export const loadAppsData = async (): Promise<App[]> => {
 }
 
 export const getAppIcon = (appName: string): string => {
-  // Use local icon directory
+  // Use local icon directory with proper base path
   const iconFileName = `${appName}.png`;
-  return `/icon/${iconFileName}`;
+  const basePath = import.meta.env.PROD ? '/setapp-apps-showcase-modern' : '';
+  return `${basePath}/icon/${iconFileName}`;
 };
 
 // 辅助函数：处理图标加载错误
 export function handleIconError(event: Event, appName: string): void {
   const img = event.target as HTMLImageElement;
-  const fallbackIcon = `/icon/start.png`;
+  const basePath = import.meta.env.PROD ? '/setapp-apps-showcase-modern' : '';
+  const fallbackIcon = `${basePath}/icon/start.png`;
   if (img.src !== fallbackIcon) {
     img.src = fallbackIcon;
   }
