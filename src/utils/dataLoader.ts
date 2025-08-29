@@ -3,8 +3,9 @@ import { App, AppStats } from '@/types/app';
 
 export const loadAppsData = async (): Promise<App[]> => {
   try {
-    // 尝试从public目录加载CSV文件
-    const response = await fetch('/apps_list_enhanced_descriptions.csv');
+    // 尝试从public目录加载CSV文件，考虑base路径
+    const basePath = import.meta.env.BASE_URL || '/';
+    const response = await fetch(`${basePath}apps_list_enhanced_descriptions.csv`);
     if (!response.ok) {
       throw new Error(`无法加载CSV文件: ${response.status}`);
     }
