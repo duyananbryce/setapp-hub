@@ -3,7 +3,7 @@ import Home from "@/pages/Home";
 
 export default function App() {
   return (
-    <Router>
+    <Router basename={import.meta.env.PROD ? '/setapp-apps-showcase-modern' : '/'}>
       <Routes>
         <Route path="/" element={<Home />} />
       </Routes>
