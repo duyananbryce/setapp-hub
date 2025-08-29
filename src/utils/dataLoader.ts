@@ -5,7 +5,9 @@ export const loadAppsData = async (): Promise<App[]> => {
   try {
     // 尝试从public目录加载CSV文件，考虑base路径
     const basePath = import.meta.env.BASE_URL || '/';
-    const response = await fetch(`${basePath}apps_list_enhanced_descriptions.csv`);
+    // 确保路径正确拼接，避免重复的base路径
+    const csvPath = basePath.endsWith('/') ? `${basePath}apps_list_enhanced_descriptions.csv` : `${basePath}/apps_list_enhanced_descriptions.csv`;
+    const response = await fetch(csvPath);
     if (!response.ok) {
       throw new Error(`无法加载CSV文件: ${response.status}`);
     }
