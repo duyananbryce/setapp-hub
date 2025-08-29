@@ -8,4 +8,5 @@ export default defineConfig({
     react(),
     tsconfigPaths()
   ],
+  base: process.env.NODE_ENV === 'production' ? '/setapp-apps-showcase-modern/' : '/',
 })
