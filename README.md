@@ -308,6 +308,7 @@ python scripts/merge_csv_data.py
 
 ### 🚀 多平台部署支持
 
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://docker.com)
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-✅%20已部署-success?style=for-the-badge&logo=github)](https://duyananbryce.github.io/setapp-apps-showcase-modern/)
 [![Vercel](https://img.shields.io/badge/Vercel-Ready-black?style=for-the-badge&logo=vercel)](https://vercel.com)
 [![Netlify](https://img.shields.io/badge/Netlify-Ready-00C7B7?style=for-the-badge&logo=netlify)](https://netlify.com)
@@ -315,6 +316,133 @@ python scripts/merge_csv_data.py
 **🌟 [立即访问在线演示](https://duyananbryce.github.io/setapp-apps-showcase-modern/)**
 
 </div>
+
+---
+
+### 🐳 Docker 部署
+
+<div align="center">
+
+#### 🚀 容器化部署，一次构建，到处运行
+
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Ready-2496ED?style=flat-square&logo=docker)](https://hub.docker.com)
+
+</div>
+
+<table>
+<tr>
+<td width="50%">
+
+#### 📦 快速启动
+```bash
+# 构建镜像
+docker build -t setapp-showcase .
+
+# 运行容器
+docker run -d -p 3000:8080 \
+  --name setapp-showcase \
+  --restart unless-stopped \
+  setapp-showcase
+
+# 查看运行状态
+docker ps
+docker logs setapp-showcase
+```
+
+#### 🔧 多阶段构建
+```dockerfile
+# 构建阶段
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+
+# 生产阶段
+FROM nginx:alpine AS production
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+    CMD curl -f http://localhost:8080/ || exit 1
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+</td>
+<td width="50%">
+
+#### 🐙 Docker Compose
+```yaml
+version: '3.8'
+services:
+  setapp-showcase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: setapp-showcase-app
+    ports:
+      - "3000:8080"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+```
+
+```bash
+# 生产环境启动
+docker-compose up -d
+
+# 开发环境启动（热重载）
+docker-compose --profile dev up -d
+
+# 查看日志
+docker-compose logs -f setapp-showcase
+
+# 停止服务
+docker-compose down
+```
+
+#### ⚙️ 环境变量配置
+```bash
+# 生产环境
+NODE_ENV=production
+VITE_HOST=0.0.0.0
+VITE_PORT=8080
+
+# 开发环境
+NODE_ENV=development
+VITE_HOST=0.0.0.0
+VITE_PORT=5173
+```
+
+#### 🔧 常用命令
+```bash
+# 构建并启动
+docker-compose up --build -d
+
+# 重启服务
+docker-compose restart
+
+# 查看容器状态
+docker-compose ps
+
+# 进入容器
+docker-compose exec setapp-showcase sh
+
+# 清理资源
+docker-compose down --volumes --rmi all
+```
+
+</td>
+</tr>
+</table>
 
 ---
 

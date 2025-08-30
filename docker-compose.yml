@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 主应用服务
+  setapp-showcase:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: setapp-showcase-app
+    ports:
+      - "3000:8080"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - setapp-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.setapp.rule=Host(`localhost`)"
+      - "traefik.http.services.setapp.loadbalancer.server.port=8080"
+
+  # 开发环境服务（可选）
+  setapp-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: setapp-showcase-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_HOST=0.0.0.0
+    restart: unless-stopped
+    networks:
+      - setapp-network
+    profiles:
+      - dev
+
+networks:
+  setapp-network:
+    driver: bridge
+    name: setapp-network
+
+# 可选：添加卷用于数据持久化
+volumes:
+  node_modules:
+    name: setapp-node-modules
