@@ -8,9 +8,24 @@
 
 一个现代化的 Web 应用，专为浏览和探索 Setapp 应用商店中的优质应用而设计。支持多语言、多货币显示，提供智能搜索和数据可视化功能。
 
-🌐 **[GitHub仓库](https://github.com/duyananbryce/setapp-apps-showcase-modern)** | 📖 **[文档](./docs/)** | 🛠️ **[开发指南](#开发指南)**
+🌐 **[项目源码](.)** | 📖 **[文档](./docs/)** | 🛠️ **[开发指南](#开发指南)**
 
 ![项目截图](./archive/website-screenshot.png)
+
+## 📑 目录
+
+- [✨ 功能特性](#功能特性)
+- [🛠️ 技术栈](#技术栈)
+- [📁 项目结构](#项目结构)
+- [🚀 快速开始](#快速开始)
+- [📊 数据源与处理](#数据源与处理)
+- [🌐 部署](#部署)
+- [🛠️ 开发指南](#开发指南)
+- [🤝 贡献指南](#贡献指南)
+- [📄 许可证](#许可证)
+- [🙏 致谢](#致谢)
+- [📈 更新日志](#更新日志)
+- [📞 联系我们](#联系我们)
 
 ## ✨ 功能特性
 
@@ -288,8 +303,8 @@ python scripts/merge_csv_data.py
 如有问题或建议，请通过以下方式联系：
 
 - 📧 邮箱：[your-email@example.com]
-- 🐛 问题反馈：[GitHub Issues](https://github.com/duyananbryce/setapp-apps-showcase-modern/issues)
-- 💬 讨论：[GitHub Discussions](https://github.com/duyananbryce/setapp-apps-showcase-modern/discussions)
+- 🐛 问题反馈：请通过项目Issues页面反馈
+- 💬 讨论：欢迎在项目中提出建议和讨论
 
 ---
 
