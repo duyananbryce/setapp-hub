@@ -147,7 +147,7 @@ interface AppFeatureDescription {
 - **测试页面**: http://localhost:3000/test
 
 ### 生产构建
-- **预览服务器**: http://localhost:4173/setapp-apps-showcase-modern/
+- **预览服务器**: http://localhost:4173/setapp-hub/
 
 ## 特色功能展示
 

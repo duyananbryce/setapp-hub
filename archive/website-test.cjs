@@ -4,7 +4,7 @@ const fs = require('fs');
 const testWebsite = async () => {
   console.log('🔍 开始网站验证测试...');
   
-  const baseUrl = 'https://duyananbryce.github.io/setapp-apps-showcase-modern';
+  const baseUrl = 'https://duyananbryce.github.io/setapp-hub';
   
   // 测试主页
   console.log('\n1. 测试主页HTML...');

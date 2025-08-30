@@ -165,10 +165,6 @@ const SPECIFIC_APP_DESCRIPTIONS = {
     'en-US': 'Audio enhancer that delivers immersive 3D surround sound experience with volume booster and equalizer.',
     'ja-JP': 'ボリュームブースターとイコライザーで没入感のある3Dサラウンドサウンド体験を提供するオーディオエンハンサー。'
   },
-  'Buildwatch': {
-    'en-US': 'Xcode build time tracker that monitors compilation performance and helps optimize development workflow.',
-    'ja-JP': 'コンパイルパフォーマンスを監視し、開発ワークフローの最適化を支援するXcodeビルド時間トラッカー。'
-  },
   'BusyCal': {
     'en-US': 'Advanced calendar app with task management, weather integration, and powerful scheduling features.',
     'ja-JP': 'タスク管理、天気統合、強力なスケジューリング機能を備えた高度なカレンダーアプリ。'
@@ -246,10 +242,7 @@ const SPECIFIC_APP_DESCRIPTIONS = {
     'en-US': 'Menu bar calendar that shows date, time, and upcoming events with customizable display options.',
     'ja-JP': 'カスタマイズ可能な表示オプションで日付、時刺、今後のイベントを表示するメニューバーカレンダー。'
   },
-  'Default Folder X': {
-    'en-US': 'File dialog enhancer that adds quick access to recent folders, favorites, and shortcuts in open/save dialogs.',
-    'ja-JP': '開く／保存ダイアログに最近のフォルダー、お気に入り、ショートカットへのクイックアクセスを追加するファイルダイアログエンハンサー。'
-  },
+
   'DeskMinder²': {
     'en-US': 'Desktop reminder app that creates floating notes and alerts for important tasks and deadlines.',
     'ja-JP': '重要なタスクや期限のためのフローティングノートとアラートを作成するデスクトップリマインダーアプリ。'
@@ -265,10 +258,6 @@ const SPECIFIC_APP_DESCRIPTIONS = {
   'DisplayBuddy': {
     'en-US': 'External display controller that manages brightness, volume, and input switching for multiple monitors.',
     'ja-JP': '複数モニターの明るさ、音量、入力切り替えを管理する外部ディスプレイコントローラー。'
-  },
-  'Downie': {
-    'en-US': 'Video downloader that supports hundreds of sites including YouTube, Vimeo, and other video platforms.',
-    'ja-JP': 'YouTube、Vimeo、その他の動画プラットフォームを含む数百のサイトに対応した動画ダウンローダー。'
   },
   'Dropshare': {
     'en-US': 'File sharing tool that quickly uploads and shares files via cloud storage with custom short links.',
@@ -286,10 +275,7 @@ const SPECIFIC_APP_DESCRIPTIONS = {
     'en-US': 'AI writing assistant that integrates with macOS to provide smart text generation and editing capabilities.',
     'ja-JP': 'macOSと統合してスマートなテキスト生成と編集機能を提供するAIライティングアシスタント。'
   },
-  'Elmedia Player': {
-    'en-US': 'Versatile media player that supports various audio and video formats with streaming capabilities.',
-    'ja-JP': 'ストリーミング機能を備えた様々なオーディオ・ビデオフォーマットに対応した多機能メディアプレーヤー。'
-  },
+
   'Endurance': {
     'en-US': 'Battery life extender that automatically adjusts system settings to maximize MacBook battery performance.',
     'ja-JP': 'MacBookのバッテリーパフォーマンスを最大化するためにシステム設定を自動調整するバッテリー寿命延長ツール。'
@@ -456,10 +442,7 @@ const SPECIFIC_APP_DESCRIPTIONS = {
     'en-US': 'Online video download and editing tool that supports downloading from major video sites with simple editing capabilities.',
     'ja-JP': 'シンプルな編集機能で主要動画サイトからのダウンロードをサポートするオンライン動画ダウンロード・編集ツール。'
   },
-  'Elmedia Player': {
-    'en-US': 'Comprehensive multimedia player supporting almost all audio and video formats with advanced playback controls and subtitle support.',
-    'ja-JP': '高度な再生コントロールと字幕サポートでほぼすべてのオーディオ・ビデオフォーマットをサポートする包括的マルチメディアプレーヤー。'
-  },
+
   'Mission Control Plus': {
     'en-US': 'Mission Control enhancement tool that allows closing windows directly from Mission Control interface for improved multitasking.',
     'ja-JP': 'マルチタスクの改善のためにMission Controlインターフェースから直接ウィンドウを閉じることができるMission Control機能強化ツール。'
@@ -508,10 +491,7 @@ const SPECIFIC_APP_DESCRIPTIONS = {
     'en-US': 'Productivity tool combining note-taking and task management with Markdown support, calendar integration, and project planning.',
     'ja-JP': 'Markdownサポート、カレンダー統合、プロジェクト計画でノート作成とタスク管理を組み合わせた生産性ツール。'
   },
-  'Default Folder X': {
-    'en-US': 'File dialog enhancement tool that provides quick access to recent and favorite folders in open/save dialogs for improved efficiency.',
-    'ja-JP': '効率向上のために開く/保存ダイアログで最近使用したフォルダーとお気に入りフォルダーへのクイックアクセスを提供するファイルダイアログ機能強化ツール。'
-  },
+
   'OpenIn': {
     'en-US': 'Browser selection tool that allows users to specify different browsers for different types of links with rule-based matching.',
     'ja-JP': 'ルールベースのマッチングで異なるタイプのリンクに対して異なるブラウザーを指定できるブラウザー選択ツール。'

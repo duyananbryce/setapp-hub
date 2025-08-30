@@ -6,7 +6,7 @@ const puppeteer = require('puppeteer');
   
   try {
     console.log('正在访问网站...');
-    await page.goto('https://duyananbryce.github.io/setapp-apps-showcase-modern/', { 
+    await page.goto('https://duyananbryce.github.io/setapp-hub/', { 
       waitUntil: 'networkidle2',
       timeout: 30000 
     });

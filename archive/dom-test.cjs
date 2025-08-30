@@ -3,7 +3,7 @@ const https = require('https');
 const testDOMContent = async () => {
   console.log('🔍 开始DOM内容验证测试...');
   
-  const baseUrl = 'https://duyananbryce.github.io/setapp-apps-showcase-modern';
+  const baseUrl = 'https://duyananbryce.github.io/setapp-hub';
   
   // 获取主页HTML内容
   console.log('\n1. 获取并分析主页HTML内容...');
@@ -13,7 +13,7 @@ const testDOMContent = async () => {
   console.log(`   - 包含root div: ${htmlContent.includes('<div id="root"></div>') ? '✅' : '❌'}`);
   console.log(`   - 包含JavaScript引用: ${htmlContent.includes('index-YwzrO7r_.js') ? '✅' : '❌'}`);
   console.log(`   - 包含CSS引用: ${htmlContent.includes('index-CDsEaISz.css') ? '✅' : '❌'}`);
-  console.log(`   - 正确的base路径: ${htmlContent.includes('/setapp-apps-showcase-modern/') ? '✅' : '❌'}`);
+  console.log(`   - 正确的base路径: ${htmlContent.includes('/setapp-hub/') ? '✅' : '❌'}`);
   
   // 检查JavaScript内容
   console.log('\n2. 分析JavaScript文件内容...');
@@ -23,7 +23,7 @@ const testDOMContent = async () => {
   console.log(`   - 包含React: ${jsContent.includes('React') ? '✅' : '❌'}`);
   console.log(`   - 包含createElement: ${jsContent.includes('createElement') ? '✅' : '❌'}`);
   console.log(`   - 包含CSV文件引用: ${jsContent.includes('apps_list_enhanced_descriptions.csv') ? '✅' : '❌'}`);
-  console.log(`   - 包含base路径: ${jsContent.includes('/setapp-apps-showcase-modern/') ? '✅' : '❌'}`);
+  console.log(`   - 包含base路径: ${jsContent.includes('/setapp-hub/') ? '✅' : '❌'}`);
   
   // 检查CSV数据
   console.log('\n3. 验证CSV数据内容...');

@@ -31,7 +31,7 @@ async function finalVerification() {
     });
     
     console.log('🌐 导航到修复后的网站...');
-    const response = await page.goto('https://duyananbryce.github.io/setapp-apps-showcase-modern/', {
+    const response = await page.goto('https://duyananbryce.github.io/setapp-hub/', {
       waitUntil: 'networkidle2',
       timeout: 30000
     });

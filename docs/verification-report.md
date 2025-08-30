@@ -2,7 +2,7 @@
 
 ## 📊 测试概览
 
-**网站地址**: https://duyananbryce.github.io/setapp-apps-showcase-modern/
+**网站地址**: https://duyananbryce.github.io/setapp-hub/
 
 **测试时间**: 2025年8月29日
 
@@ -25,7 +25,7 @@
 - ✅ 包含正确的 `<div id="root"></div>` 容器
 - ✅ 包含正确的JavaScript文件引用
 - ✅ 包含正确的CSS文件引用
-- ✅ 所有资源路径包含正确的base路径 `/setapp-apps-showcase-modern/`
+- ✅ 所有资源路径包含正确的base路径 `/setapp-hub/`
 
 ### 3. JavaScript内容验证
 

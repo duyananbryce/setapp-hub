@@ -29,9 +29,9 @@ async function checkDeployment() {
   console.log('🔍 检查GitHub Pages部署状态...');
   
   const urls = [
-    'https://duyananbryce.github.io/setapp-apps-showcase-modern/',
-    'https://duyananbryce.github.io/setapp-apps-showcase-modern/index.html',
-    'https://duyananbryce.github.io/setapp-apps-showcase-modern/assets/',
+    'https://duyananbryce.github.io/setapp-hub/',
+    'https://duyananbryce.github.io/setapp-hub/index.html',
+    'https://duyananbryce.github.io/setapp-hub/assets/'
   ];
   
   for (const url of urls) {
@@ -48,7 +48,7 @@ async function checkDeployment() {
         if (result.body.includes('<div id="root">')) {
           console.log('   ✅ 找到React根元素');
         }
-        if (result.body.includes('setapp-apps-showcase-modern')) {
+        if (result.body.includes('setapp-hub')) {
           console.log('   ✅ 包含正确的base路径');
         }
       } else {
@@ -63,7 +63,7 @@ async function checkDeployment() {
   // 检查GitHub API获取部署状态
   try {
     console.log('\n🔍 检查GitHub Pages部署状态...');
-    const apiUrl = 'https://api.github.com/repos/duyananbryce/setapp-apps-showcase-modern/pages';
+    const apiUrl = 'https://api.github.com/repos/duyananbryce/setapp-hub/pages';
     const result = await makeRequest(apiUrl);
     
     if (result.statusCode === 200) {
