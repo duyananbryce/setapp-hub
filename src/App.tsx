@@ -4,7 +4,7 @@ import TestPage from "@/pages/TestPage";
 
 export default function App() {
   return (
-    <Router basename={import.meta.env.PROD ? '/setapp-apps-showcase-modern' : '/'}>
+    <Router basename='/setapp-hub/'>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/test" element={<TestPage />} />

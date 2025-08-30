@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
       react(),
       tsconfigPaths()
     ],
-    base: '/setapp-apps-showcase-modern/',
+    base: '/setapp-hub/',
     build: {
       assetsDir: 'assets',
       rollupOptions: {
