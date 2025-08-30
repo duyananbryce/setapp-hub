@@ -1,6 +1,3 @@
-/* 引入Claude样式系统 */
-@import '../claude-styles.css';
-
 /* 引入 Tailwind 基础样式 */
 @import 'tailwindcss/base';
 @tailwind components;

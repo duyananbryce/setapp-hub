@@ -212,11 +212,13 @@ python scripts/merge_csv_data.py
 使用项目提供的一键部署脚本，支持多种部署平台：
 
 ```bash
-# 方式一：直接运行脚本
+# 方式一：完整部署（包含代码检查）
 ./deploy.sh
-
-# 方式二：使用npm命令
+# 或
 npm run deploy
+
+# 方式二：快速部署（跳过代码检查）
+npm run deploy:fast
 ```
 
 脚本会自动完成以下步骤：
