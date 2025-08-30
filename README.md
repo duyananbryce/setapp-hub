@@ -21,8 +21,10 @@
 
 ### 🌍 国际化支持
 - **多语言**：支持简体中文、英文、日文三种语言
+- **智能翻译**：为40+热门应用提供个性化的多语言描述
 - **多货币**：支持 USD、CNY、EUR、JPY、GBP 五种货币显示
 - **智能检测**：自动根据用户地理位置和浏览器语言设置默认选项
+- **精准匹配**：基于关键词的智能翻译系统，确保每个应用描述准确反映其功能特性
 
 ### 📊 数据可视化
 - **统计面板**：实时显示应用数量、平台分布、评分统计等关键指标
@@ -39,6 +41,7 @@
 - **快速加载**：基于Vite的极速构建和热更新
 - **代码分割**：按需加载，优化首屏加载时间
 - **内存管理**：智能的状态管理和数据缓存
+- **翻译优化**：高效的多语言描述生成系统，避免重复计算
 
 ## 🛠️ 技术栈
 
@@ -90,7 +93,8 @@ setapp-apps-showcase/
 │   │   └── app.ts              # 应用相关类型
 │   ├── utils/               # 工具函数
 │   │   ├── dataLoader.ts       # 数据加载器
-│   │   └── appFeatureExtractor.ts # 应用特性提取
+│   │   ├── appFeatureExtractor.ts # 应用特性提取
+│   │   └── appDescriptionTranslator.ts # 多语言描述翻译器
 │   ├── App.tsx              # 应用根组件
 │   ├── main.tsx             # 应用入口
 │   └── index.css            # 全局样式
@@ -231,13 +235,28 @@ python scripts/merge_csv_data.py
 - [Tailwind CSS](https://tailwindcss.com) - 强大的CSS框架
 - [Vite](https://vitejs.dev) - 快速的构建工具
 
+## 📈 更新日志
+
+### v2.1.0 (2025-01-30)
+- ✨ **新增**：智能多语言描述翻译系统
+- 🔧 **优化**：为40+热门应用添加个性化英日描述
+- 🐛 **修复**：APP_NAME_TO_TYPE对象重复键值问题
+- ⚡ **改进**：关键词匹配算法，提升翻译准确性
+- 🎨 **更新**：UI设计文档和样式规范
+
+### v2.0.0 (2025-01-29)
+- 🚀 **重构**：全新的现代化UI设计
+- 🌍 **新增**：多语言和多货币支持
+- 📊 **新增**：数据可视化统计面板
+- 🔍 **增强**：智能搜索和过滤功能
+
 ## 📞 联系我们
 
 如有问题或建议，请通过以下方式联系：
 
 - 📧 邮箱：[your-email@example.com]
-- 🐛 问题反馈：[GitHub Issues](https://github.com/your-username/setapp-apps-showcase/issues)
-- 💬 讨论：[GitHub Discussions](https://github.com/your-username/setapp-apps-showcase/discussions)
+- 🐛 问题反馈：[GitHub Issues](https://github.com/duyananbryce/setapp-apps-showcase-modern/issues)
+- 💬 讨论：[GitHub Discussions](https://github.com/duyananbryce/setapp-apps-showcase-modern/discussions)
 
 ---
 
