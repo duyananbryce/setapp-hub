@@ -18,7 +18,8 @@
 
 ---
 
-![项目截图](./archive/website-screenshot.png)
+<img width="1562" height="993" alt="image" src="https://github.com/user-attachments/assets/d74fc02c-b67c-4c69-8b78-13eadf5ddf5c" />
+
 
 </div>
 
