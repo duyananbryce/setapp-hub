@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAppStore } from '@/store/appStore';
+import { useTranslation } from 'react-i18next';
+import { useI18nStore } from '@/lib/currency';
 import AppCard from '@/components/AppCard';
 import SearchFilters from '@/components/SearchFilters';
 import StatsPanel from '@/components/StatsPanel';
 import AppDetailModal from '@/components/AppDetailModal';
+import StickyQuickSwitcher from '@/components/StickyQuickSwitcher';
 import { Loader2, AlertCircle, Grid, List } from 'lucide-react';
 
 export default function Home() {
@@ -16,8 +19,44 @@ export default function Home() {
     setSelectedApp 
   } = useAppStore();
   
+  const { t } = useTranslation();
+  const { locale } = useI18nStore();
+  
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [forceRender, setForceRender] = useState(0);
+  
+  // 监听语言变化事件，强制重新渲染
+  useEffect(() => {
+    const handleLanguageChanged = () => {
+      setForceRender(prev => prev + 1);
+    };
+    
+    window.addEventListener('language-changed', handleLanguageChanged);
+    return () => {
+      window.removeEventListener('language-changed', handleLanguageChanged);
+    };
+  }, []);
+  
+  // 监听 locale 变化，自动重新渲染
+  useEffect(() => {
+    setForceRender(prev => prev + 1);
+  }, [locale]);
+  // 获取超紧凑响应式网格类名 - 扩展到10列适配4K显示器
+  const getGridClasses = (viewMode: 'grid' | 'list') => {
+    if (viewMode === 'list') return 'space-y-2';
+    
+    return `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+            xl:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8
+            gap-2 sm:gap-3 lg:gap-4 xl:gap-5 2xl:gap-6`;
+  };
+  
+  // 获取超紧凑容器类名 - 扩展到12xl适配超宽屏
+  const getContainerClasses = () => {
+    return `max-w-3xl sm:max-w-5xl md:max-w-6xl lg:max-w-7xl xl:max-w-8xl 
+            2xl:max-w-10xl 3xl:max-w-11xl 4xl:max-w-12xl mx-auto 
+            px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8`;
+  };
   
   useEffect(() => {
     loadApps();
@@ -36,11 +75,11 @@ export default function Home() {
   
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">加载应用数据中...</h2>
-          <p className="text-gray-600">正在从CSV文件中读取应用信息</p>
+          <Loader2 className="w-12 h-12 text-primary-600 animate-spin mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-neutral-900 mb-2">加载应用数据中...</h2>
+          <p className="text-neutral-800">正在从CSV文件中读取应用信息</p>
         </div>
       </div>
     );
@@ -48,14 +87,14 @@ export default function Home() {
   
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-100 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-6">
-          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">加载失败</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
+          <AlertCircle className="w-16 h-16 text-danger-500 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-neutral-900 mb-2">加载失败</h2>
+          <p className="text-neutral-800 mb-4">{error}</p>
           <button
             onClick={() => loadApps()}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors"
           >
             重试
           </button>
@@ -65,152 +104,171 @@ export default function Home() {
   }
   
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* 页面头部 */}
-      <div className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-accent-600 text-white overflow-hidden">
-        {/* 背景装饰 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/20 to-accent-600/20"></div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-10 left-10 w-72 h-72 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-accent-400/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        </div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center animate-fade-in">
-            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium mb-6 animate-slide-down">
-              <span className="w-2 h-2 bg-success-400 rounded-full mr-2 animate-pulse"></span>
-              现已收录 {filteredApps.length}+ 精选应用
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 animate-slide-up">
-              <span className="bg-gradient-to-r from-white to-primary-100 bg-clip-text text-transparent">
-                Setapp 应用
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-accent-200 to-white bg-clip-text text-transparent">
-                展示平台
-              </span>
+    <div className="min-h-screen bg-neutral-100">
+      {/* 粘性头部快速切换器 */}
+      <StickyQuickSwitcher />
+      {/* 页面头部 - Claude 风格简洁设计 */}
+      <div className="bg-white border-b border-secondary-200">
+        <div className={`${getContainerClasses()} py-16 lg:py-24`}>
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 tracking-tight text-primary-900">
+              {locale === 'zh-CN' ? 'Setapp 应用展示平台' :
+               locale === 'ja-JP' ? 'Setapp アプリショーケース' :
+               'Setapp Apps Showcase'}
             </h1>
             
-            <p className="text-xl md:text-2xl text-primary-100 max-w-4xl mx-auto leading-relaxed mb-8 animate-slide-up delay-200">
-              探索精选的 Mac 和 iOS 应用程序，发现提升工作效率和创造力的最佳工具。
-              <br className="hidden md:block" />
-              让每一个应用都成为你数字生活的完美伙伴。
+            <p className="text-lg md:text-xl text-secondary-600 max-w-3xl mx-auto leading-relaxed mb-12">
+              {locale === 'zh-CN' ? '探索精选的 Mac 和 iOS 应用程序，发现提升工作效率和创造力的最佳工具。' :
+               locale === 'ja-JP' ? '厘選されたMacおよびiOSアプリケーションを探索し、生産性と創造性を向上させる最適なツールを発見してください。' :
+               'Explore curated Mac and iOS applications, discover the best tools to enhance productivity and creativity.'}
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up delay-300">
-              <button className="group px-8 py-4 bg-white text-primary-600 rounded-2xl font-semibold shadow-large hover:shadow-colored transition-all duration-300 hover:scale-105">
-                <span className="flex items-center">
-                  开始探索
-                  <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {/* 搜索按钮 - Claude 风格 */}
+              <button 
+                onClick={() => {
+                  const searchInput = document.querySelector('input[placeholder*="搜索"]') as HTMLInputElement;
+                  if (searchInput) {
+                    searchInput.focus();
+                    searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+                className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              >
+                {locale === 'zh-CN' ? '搜索应用' :
+                 locale === 'ja-JP' ? 'アプリを検索' :
+                 'Search Apps'}
               </button>
               
-              <button className="group px-8 py-4 bg-white/10 backdrop-blur-sm text-white rounded-2xl font-semibold border border-white/20 hover:bg-white/20 transition-all duration-300">
-                <span className="flex items-center">
-                  了解更多
-                  <svg className="w-5 h-5 ml-2 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </span>
+              {/* 随机推荐按钮 - Claude 风格 */}
+              <button 
+                onClick={() => {
+                  if (filteredApps.length > 0) {
+                    const randomApp = filteredApps[Math.floor(Math.random() * filteredApps.length)];
+                    setSelectedApp(randomApp);
+                  }
+                }}
+                className="bg-white border border-secondary-300 hover:bg-secondary-50 text-primary-800 px-6 py-3 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+              >
+                {locale === 'zh-CN' ? '随机发现' :
+                 locale === 'ja-JP' ? 'ランダム発見' :
+                 'Random Discovery'}
               </button>
             </div>
+            
+            <div className="mt-8 text-sm text-secondary-500">
+              {locale === 'zh-CN' ? `现已收录 ${filteredApps.length}+ 精选应用` :
+               locale === 'ja-JP' ? `${filteredApps.length}+の厘選アプリを収録しています` :
+               `${filteredApps.length}+ Curated Apps Available`}
+            </div>
           </div>
-        </div>
-        
-        {/* 底部波浪装饰 */}
-        <div className="absolute bottom-0 left-0 w-full">
-          <svg className="w-full h-12 text-gray-50" fill="currentColor" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
-          </svg>
         </div>
       </div>
       
       {/* 统计面板 */}
-      <StatsPanel />
+      <div data-section="stats">
+        <StatsPanel />
+      </div>
       
-      {/* 搜索和筛选 */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      {/* 搜索和筛选 - Claude 风格简洁设计 */}
+      <div className="bg-white border-b border-secondary-200">
+        <div className={`${getContainerClasses()} py-8`}>
           <SearchFilters />
           
-          {/* 视图切换和结果计数 */}
-          <div className="flex items-center justify-between mt-6">
+          {/* 视图切换和结果计数 - 简洁版本 */}
+          <div className="flex items-center justify-between mt-6 pt-6 border-t border-secondary-200">
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                找到 <span className="font-semibold text-gray-900">{filteredApps.length}</span> 个应用
+              <span className="text-sm text-primary-800 font-medium">
+                {locale === 'zh-CN' ? '找到' :
+                 locale === 'ja-JP' ? '見つかった' :
+                 'Found'} <span className="font-semibold text-primary-600">{filteredApps.length}</span> {locale === 'zh-CN' ? '个应用' :
+                 locale === 'ja-JP' ? '個のアプリ' :
+                 'apps'}
               </span>
             </div>
             
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600 mr-2">视图:</span>
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid'
-                    ? 'bg-blue-100 text-blue-600'
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                <Grid className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list'
-                    ? 'bg-blue-100 text-blue-600'
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-secondary-600 font-medium">
+                {locale === 'zh-CN' ? '视图:' :
+                 locale === 'ja-JP' ? '表示:' :
+                 'View:'}
+              </span>
+              <div className="flex items-center bg-secondary-100 rounded-lg p-1">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded-md transition-colors duration-200 ${
+                    viewMode === 'grid'
+                      ? 'bg-white text-primary-600 shadow-sm'
+                      : 'text-secondary-600 hover:text-primary-600'
+                  }`}
+                >
+                  <Grid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded-md transition-colors duration-200 ${
+                    viewMode === 'list'
+                      ? 'bg-white text-primary-600 shadow-sm'
+                      : 'text-secondary-600 hover:text-primary-600'
+                  }`}
+                >
+                  <List className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
-      {/* 应用列表 */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {filteredApps.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <AlertCircle className="w-12 h-12 text-gray-400" />
+      {/* 应用列表 - Claude 风格简洁设计 */}
+      <div className="bg-secondary-50">
+        <div className={getContainerClasses() + ' py-12'}>
+          {filteredApps.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="w-16 h-16 bg-secondary-200 rounded-lg flex items-center justify-center mx-auto mb-6">
+                <AlertCircle className="w-8 h-8 text-secondary-500" />
+              </div>
+              <h3 className="text-lg font-medium text-primary-800 mb-3">
+                {locale === 'zh-CN' ? '未找到匹配的应用' :
+                 locale === 'ja-JP' ? '一致するアプリが見つかりません' :
+                 'No matching apps found'}
+              </h3>
+              <p className="text-sm text-secondary-600 max-w-md mx-auto">
+                {locale === 'zh-CN' ? '请尝试调整搜索条件或筛选器，或者清除所有筛选条件重新开始' :
+                 locale === 'ja-JP' ? '検索条件やフィルターを調整するか、すべてのフィルターをクリアしてやり直してください' :
+                 'Try adjusting your search terms or filters, or clear all filters to start over'}
+              </p>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-              未找到匹配的应用
-            </h3>
-            <p className="text-gray-600 max-w-md mx-auto">
-              请尝试调整搜索条件或筛选器，或者清除所有筛选条件重新开始
-            </p>
-          </div>
-        ) : (
-          <div className={`${
-            viewMode === 'grid'
-              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
-              : 'space-y-4'
-          }`}>
-            {filteredApps.map((app, index) => (
-              <AppCard 
-                key={`${app.名称}-${index}`} 
-                app={app} 
-                viewMode={viewMode}
-              />
-            ))}
-          </div>
-        )}
-        
-        {/* 加载更多提示 */}
-        {filteredApps.length > 0 && (
-          <div className="text-center mt-12 py-8 border-t border-gray-200">
-            <p className="text-gray-600">
-              已显示所有 {filteredApps.length} 个应用
-            </p>
-          </div>
-        )}
+          ) : (
+            <div className={getGridClasses(viewMode)}>
+              {filteredApps.map((app, index) => (
+                <AppCard 
+                  key={`${app.名称}-${index}`} 
+                  app={app} 
+                  viewMode={viewMode}
+                  showPlatformDetails={true}
+                  onPlatformClick={(platform) => {
+                    console.log('点击了平台:', platform);
+                    // 可以在这里添加平台筛选功能
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          
+          {/* 统计信息 */}
+          {filteredApps.length > 0 && (
+            <div className="text-center mt-12 pt-8 border-t border-secondary-200">
+              <p className="text-sm text-secondary-600">
+                {locale === 'zh-CN' ? '已显示所有' :
+                 locale === 'ja-JP' ? 'すべて表示中' :
+                 'Showing all'} <span className="font-medium text-primary-700">{filteredApps.length}</span> {locale === 'zh-CN' ? '个应用' :
+                 locale === 'ja-JP' ? '個のアプリ' :
+                 'apps'}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
       
       {/* 应用详情模态框 */}
@@ -220,20 +278,32 @@ export default function Home() {
         onClose={handleCloseModal}
       />
       
-      {/* 页脚 */}
-      <footer className="bg-gray-900 text-white mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* 页脚 - Claude 风格简洁设计 */}
+      <footer className="bg-white border-t border-secondary-200">
+        <div className={`${getContainerClasses()} py-12`}>
           <div className="text-center">
-            <h3 className="text-lg font-semibold mb-4">
-              Setapp 应用展示平台
+            <h3 className="text-lg font-medium text-primary-800 mb-3">
+              {locale === 'zh-CN' ? 'Setapp 应用展示平台' :
+               locale === 'ja-JP' ? 'Setapp アプリショーケース' :
+               'Setapp Apps Showcase'}
             </h3>
-            <p className="text-gray-400 max-w-2xl mx-auto mb-6">
-              这是一个展示Setapp平台上精选应用的网站，帮助用户发现和了解各种优秀的Mac和iOS应用程序。
+            <p className="text-sm text-secondary-600 max-w-2xl mx-auto mb-6">
+              {locale === 'zh-CN' ? '这是一个展示Setapp平台上精选应用的网站，帮助用户发现和了解各种优秀的Mac和iOS应用程序。' :
+               locale === 'ja-JP' ? 'Setappプラットフォームの厳選アプリを紹介するウェブサイトで、ユーザーが優秀なMacやiOSアプリケーションを発見し理解することを支援します。' :
+               'A website showcasing curated applications from the Setapp platform, helping users discover and learn about excellent Mac and iOS applications.'}
             </p>
-            <div className="flex justify-center space-x-6 text-sm text-gray-400">
-              <span>© 2024 Setapp应用展示平台</span>
+            <div className="flex justify-center items-center space-x-2 text-xs text-secondary-500">
+              <span>
+                {locale === 'zh-CN' ? '© 2024 Setapp应用展示平台' :
+                 locale === 'ja-JP' ? '© 2024 Setappアプリショーケース' :
+                 '© 2024 Setapp Apps Showcase'}
+              </span>
               <span>•</span>
-              <span>数据来源: Setapp官方</span>
+              <span>
+                {locale === 'zh-CN' ? '数据来源: Setapp官方' :
+                 locale === 'ja-JP' ? 'データソース: Setapp公式' :
+                 'Data Source: Official Setapp'}
+              </span>
             </div>
           </div>
         </div>

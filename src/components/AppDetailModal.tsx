@@ -1,7 +1,28 @@
-import { X, Star, Globe, ExternalLink, Download, Shield, Clock } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { X, Star, Globe, ExternalLink } from 'lucide-react';
 import { App } from '@/types/app';
 import { getAppIcon } from '@/utils/dataLoader';
-import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useI18nStore, detectDefaultCurrency } from '@/lib/currency';
+import { 
+  extractCoreFeatures, 
+  generateTechnicalFeatures, 
+  generateUseCases, 
+  generateTargetAudience 
+} from '@/utils/appFeatureExtractor';
+import '@/lib/i18n'; // 确保 i18n 初始化
+// import FeatureOverview from './FeatureOverview';
+// import HighlightsList from './HighlightsList';
+// import DetailedFeatures from './DetailedFeatures';
+// import UseCasePanel from './UseCasePanel';
+// import PlatformIndicator from './PlatformIndicator';
+// import OfficialLinks from './OfficialLinks';
+// import SystemRequirements from './SystemRequirements';
+// import LanguageCurrencySelector from './LanguageCurrencySelector';
+// import PriceDisplay from './PriceDisplay';
+// import FeatureGallery from './FeatureGallery';
+
+
 
 interface AppDetailModalProps {
   app: App | null;
@@ -10,6 +31,35 @@ interface AppDetailModalProps {
 }
 
 export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalProps) {
+  const { t, i18n } = useTranslation();
+  const { 
+    locale, 
+    currency, 
+    setLocale, 
+    setCurrency, 
+    convertPrice 
+  } = useI18nStore();
+  
+  // 初始化语言和货币设置
+  useEffect(() => {
+    // 检测并设置默认货币
+    const defaultCurrency = detectDefaultCurrency();
+    if (currency === 'USD' && defaultCurrency !== 'USD') {
+      setCurrency(defaultCurrency);
+    }
+    
+    // 同步 i18next 语言设置
+    if (i18n.language !== locale) {
+      i18n.changeLanguage(locale);
+    }
+  }, []);
+  
+  // 语言变更处理
+  const handleLocaleChange = (newLocale: any) => {
+    setLocale(newLocale);
+    i18n.changeLanguage(newLocale);
+  };
+  
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -54,156 +104,218 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
-          <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+          <Star key={i} className="w-5 h-5 fill-primary-600 text-primary-600" />
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <Star key={i} className="w-5 h-5 fill-yellow-400/50 text-yellow-400" />
+          <Star key={i} className="w-5 h-5 fill-primary-400 text-primary-400" />
         );
       } else {
         stars.push(
-          <Star key={i} className="w-5 h-5 text-gray-300" />
+          <Star key={i} className="w-5 h-5 text-secondary-400" />
         );
       }
     }
     return stars;
   };
-  
-  const formatPrice = (price: number) => {
-    if (price === 0) return '免费使用';
-    return `$${price}/年`;
-  };
-  
-  const getPlatformInfo = (platform: string) => {
-    const platforms = platform.split(',').map(p => p.trim());
-    return platforms;
-  };
-  
+
+  // 使用新的智能功能提取系统
+  const coreFeatures = extractCoreFeatures(app, locale);
+  const technicalFeatures = generateTechnicalFeatures(app, locale);
+  const useCases = generateUseCases(app, locale);
+  const targetAudience = generateTargetAudience(app, locale);
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* 背景遮罩 */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
       
       {/* 模态框内容 */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="relative bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
           {/* 关闭按钮 */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+            className="absolute top-6 right-6 z-20 p-2 bg-secondary-100 hover:bg-secondary-200 rounded-lg transition-colors duration-200"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-primary-700" />
           </button>
           
-          {/* 头部信息 */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 rounded-t-xl">
-            <div className="flex items-start space-x-4">
-              <img 
-                src={iconSrc}
-                alt={app.名称}
-                className="w-20 h-20 rounded-xl shadow-lg bg-white/10 p-1"
-                onError={handleImageError}
-              />
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-2">{app.名称}</h2>
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="flex items-center space-x-1">
-                    {renderStars(app.评分)}
+          {/* 头部区域 */}
+          <div className="bg-white border-b border-secondary-200">
+            <div className="p-8">
+              <div className="flex items-start space-x-6">
+                {/* 应用信息 */}
+                <div className="flex items-start space-x-6 flex-1">
+                  <div className="relative">
+                    <img 
+                      src={iconSrc}
+                      alt={app.名称}
+                      className="w-20 h-20 rounded-lg"
+                      onError={handleImageError}
+                    />
                   </div>
-                  <span className="text-blue-100">({app.评分}/100)</span>
+                  
+                  <div className="flex-1 space-y-4">
+                    {/* 应用名称和评分 */}
+                    <div>
+                      <h1 className="text-2xl font-semibold mb-2 text-primary-800">{app.名称}</h1>
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1">
+                            {renderStars(app.评分)}
+                          </div>
+                          <span className="text-sm text-secondary-600">({app.评分}/100)</span>
+                        </div>
+                        
+                        {app.开发者 && (
+                          <div className="text-sm text-secondary-600">
+                            开发者: {app.开发者}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* 功能描述 */}
+                    <p className="text-base text-secondary-700 leading-relaxed max-w-2xl">
+                      {app.功能描述}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {getPlatformInfo(app.平台).map((platform, index) => (
-                    <span 
-                      key={index}
-                      className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium"
-                    >
-                      {platform}
-                    </span>
-                  ))}
+                
+                {/* 价格显示 */}
+                <div className="w-72">
+                  <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
+                    <h3 className="text-base font-medium mb-3 text-primary-800">
+                      {locale === 'zh-CN' ? '价格信息' :
+                       locale === 'ja-JP' ? '価格情報' :
+                       'Price Information'}
+                    </h3>
+                    <div className="text-xl font-semibold mb-2 text-primary-800">
+                      {typeof app.官方订阅价格 === 'number' && app.官方订阅价格 > 0 
+                        ? `$${app.官方订阅价格}/月` 
+                        : 'Setapp 包含'
+                      }
+                    </div>
+                    <p className="text-sm text-secondary-600">
+                      {locale === 'zh-CN' ? '通过 Setapp 订阅使用' :
+                       locale === 'ja-JP' ? 'Setappサブスクリプションで利用' :
+                       'Available through Setapp subscription'}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           
-          {/* 主要内容 */}
-          <div className="p-6">
-            {/* 价格信息 */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                    {formatPrice(app.官方订阅价格)}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {app.官方订阅价格 === 0 ? '无需付费即可使用' : '官方订阅价格'}
-                  </p>
+          {/* 详细内容区域 */}
+          <div className="overflow-y-auto max-h-[50vh]">
+            <div className="p-8 space-y-6">
+              {/* 主要功能特点 */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* 核心功能 */}
+                <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
+                  <div className="flex items-center mb-4">
+                    <div className="p-2 bg-primary-600 rounded-lg mr-3">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-base font-medium text-primary-800">
+                      {locale === 'zh-CN' ? '核心功能' :
+                       locale === 'ja-JP' ? 'コア機能' :
+                       'Core Features'}
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {coreFeatures.map((feature, index) => (
+                      <div key={index} className="flex items-start space-x-2">
+                        <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-secondary-700">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <Clock className="w-4 h-4" />
-                  <span>年付订阅</span>
+
+                {/* 技术特点 */}
+                <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
+                  <div className="flex items-center mb-4">
+                    <div className="p-2 bg-accent-600 rounded-lg mr-3">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-base font-medium text-primary-800">
+                      {locale === 'zh-CN' ? '技术特点' :
+                       locale === 'ja-JP' ? '技術的特徴' :
+                       'Technical Features'}
+                    </h3>
+                  </div>
+                  <div className="space-y-2">
+                    {technicalFeatures.map((feature, index) => (
+                      <div key={index} className="flex items-start space-x-2">
+                        <div className="w-1.5 h-1.5 bg-accent-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-secondary-700">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* 功能描述 */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">功能描述</h3>
-              <p className="text-gray-700 leading-relaxed">
-                {app.功能描述}
-              </p>
-            </div>
-            
-            {/* 特性标签 */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">应用特性</h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Shield className="w-4 h-4 text-green-500" />
-                  <span>Setapp认证应用</span>
+              
+              {/* 操作按钮 */}
+              <div className="flex items-center justify-between pt-6 border-t border-secondary-200">
+                <div className="flex items-center space-x-4">
+                  <span className="text-sm text-secondary-600">
+                    {locale === 'zh-CN' ? '平台支持' :
+                     locale === 'ja-JP' ? 'プラットフォームサポート' :
+                     'Platform Support'}: {app.平台}
+                  </span>
+                  {app.系统要求 && (
+                    <span className="text-sm text-secondary-600">
+                      {locale === 'zh-CN' ? '系统要求' :
+                       locale === 'ja-JP' ? 'システム要件' :
+                       'System Requirements'}: {app.系统要求}
+                    </span>
+                  )}
                 </div>
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Download className="w-4 h-4 text-blue-500" />
-                  <span>一键安装</span>
-                </div>
-                {app.官方订阅价格 === 0 && (
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Star className="w-4 h-4 text-yellow-500" />
-                    <span>免费使用</span>
-                  </div>
-                )}
-                {app.评分 >= 95 && (
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Star className="w-4 h-4 text-purple-500" />
-                    <span>编辑推荐</span>
-                  </div>
-                )}
+                
+                <div className="flex space-x-3">
+                  {app.官方网站 && (
+                    <a 
+                      href={app.官方网站}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 px-4 py-2 bg-white border border-secondary-300 text-primary-800 rounded-lg hover:bg-secondary-50 transition-colors duration-200"
+                    >
+                      <Globe className="w-4 h-4" />
+                      <span>
+                        {locale === 'zh-CN' ? '官方网站' :
+                         locale === 'ja-JP' ? '公式サイト' :
+                         'Official Website'}
+                      </span>
+                    </a>
+                  )}
+                  
+                  {app.Setapp链接 && (
+                    <a 
+                      href={app.Setapp链接}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>
+                        {locale === 'zh-CN' ? '在 Setapp 中使用' :
+                         locale === 'ja-JP' ? 'Setappで使用' :
+                         'Use in Setapp'}
+                      </span>
+                    </a>
+                  )}                </div>
               </div>
-            </div>
-            
-            {/* 操作按钮 */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              {app.Setapp链接 && (
-                <button
-                  onClick={() => window.open(app.Setapp链接, '_blank')}
-                  className="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg font-medium hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center justify-center space-x-2"
-                >
-                  <ExternalLink className="w-5 h-5" />
-                  <span>在Setapp中查看</span>
-                </button>
-              )}
-              {app.官方网站 && (
-                <button
-                  onClick={() => window.open(app.官方网站, '_blank')}
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center justify-center space-x-2"
-                >
-                  <Globe className="w-5 h-5" />
-                  <span>访问官方网站</span>
-                </button>
-              )}
             </div>
           </div>
         </div>

@@ -20,16 +20,16 @@ const AppIcon: React.FC<AppIconProps> = ({ appName, size = 64, className = '' })
   // 根据应用名称生成颜色
   const getColorFromName = (name: string): { bg: string; text: string } => {
     const colors = [
-      { bg: '#3B82F6', text: '#FFFFFF' }, // Blue
-      { bg: '#10B981', text: '#FFFFFF' }, // Green
-      { bg: '#F59E0B', text: '#FFFFFF' }, // Amber
-      { bg: '#EF4444', text: '#FFFFFF' }, // Red
-      { bg: '#8B5CF6', text: '#FFFFFF' }, // Purple
-      { bg: '#06B6D4', text: '#FFFFFF' }, // Cyan
-      { bg: '#F97316', text: '#FFFFFF' }, // Orange
-      { bg: '#84CC16', text: '#FFFFFF' }, // Lime
-      { bg: '#EC4899', text: '#FFFFFF' }, // Pink
-      { bg: '#6366F1', text: '#FFFFFF' }, // Indigo
+      { bg: '#cd6f47', text: '#FFFFFF' }, // Primary
+      { bg: '#8a7fbd', text: '#FFFFFF' }, // Accent
+      { bg: '#22c55e', text: '#FFFFFF' }, // Success
+      { bg: '#f59e0b', text: '#FFFFFF' }, // Warning
+      { bg: '#ef4444', text: '#FFFFFF' }, // Danger
+      { bg: '#71717a', text: '#FFFFFF' }, // Secondary
+      { bg: '#b05730', text: '#FFFFFF' }, // Primary-600
+      { bg: '#6c5dac', text: '#FFFFFF' }, // Accent-600
+      { bg: '#16a34a', text: '#FFFFFF' }, // Success-600
+      { bg: '#d97706', text: '#FFFFFF' }, // Warning-600
     ];
     
     let hash = 0;
