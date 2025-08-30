@@ -179,14 +179,14 @@ function generateEnhancedFeatureDescription(row: any): any {
 export const getAppIcon = (appName: string): string => {
   // Use local icon directory with proper base path
   const iconFileName = `${appName}.png`;
-  const basePath = import.meta.env.PROD ? '/setapp-hub' : '';
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   return `${basePath}/icon/${iconFileName}`;
 };
 
 // 辅助函数：处理图标加载错误
 export function handleIconError(event: Event, appName: string): void {
   const img = event.target as HTMLImageElement;
-  const basePath = import.meta.env.PROD ? '/setapp-hub' : '';
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   const fallbackIcon = `${basePath}/icon/start.png`;
   if (img.src !== fallbackIcon) {
     img.src = fallbackIcon;
