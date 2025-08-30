@@ -8,7 +8,7 @@
 
 一个现代化的 Web 应用，专为浏览和探索 Setapp 应用商店中的优质应用而设计。支持多语言、多货币显示，提供智能搜索和数据可视化功能。
 
-🌐 **[在线演示](https://setapp-apps-showcase.vercel.app)** | 📖 **[文档](./docs/)** | 🛠️ **[开发指南](#开发指南)**
+🌐 **[GitHub仓库](https://github.com/duyananbryce/setapp-apps-showcase-modern)** | 📖 **[文档](./docs/)** | 🛠️ **[开发指南](#开发指南)**
 
 ![项目截图](./archive/website-screenshot.png)
 
@@ -206,6 +206,47 @@ python scripts/merge_csv_data.py
 - **GitHub Pages**：免费的静态站点托管
 - **自托管**：构建后将`dist`目录部署到任何Web服务器
 
+## 🛠️ 开发指南
+
+### 开发环境配置
+
+1. **代码编辑器推荐**
+   - VS Code + TypeScript插件
+   - WebStorm
+   - 配置ESLint和Prettier
+
+2. **开发流程**
+   ```bash
+   # 启动开发服务器
+   npm run dev
+   
+   # 代码检查
+   npm run lint
+   
+   # 构建项目
+   npm run build
+   ```
+
+3. **调试技巧**
+   - 使用浏览器开发者工具
+   - React DevTools扩展
+   - 网络面板监控API请求
+
+### 开发规范
+
+- 使用TypeScript进行类型安全开发
+- 遵循ESLint代码规范
+- 编写组件时确保可复用性
+- 添加适当的注释和文档
+- 确保响应式设计兼容性
+
+### 项目架构
+
+- **组件化开发**：每个功能模块独立组件
+- **状态管理**：使用Zustand进行全局状态管理
+- **国际化**：基于i18next的多语言支持
+- **样式系统**：Tailwind CSS + 自定义组件库
+
 ## 🤝 贡献指南
 
 我们欢迎所有形式的贡献！请查看我们的贡献指南：
@@ -215,14 +256,6 @@ python scripts/merge_csv_data.py
 3. **提交**更改 (`git commit -m 'Add some AmazingFeature'`)
 4. **推送**到分支 (`git push origin feature/AmazingFeature`)
 5. **创建** Pull Request
-
-### 开发规范
-
-- 使用TypeScript进行类型安全开发
-- 遵循ESLint代码规范
-- 编写组件时确保可复用性
-- 添加适当的注释和文档
-- 确保响应式设计兼容性
 
 ## 📄 许可证
 
