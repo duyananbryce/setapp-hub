@@ -207,6 +207,12 @@ python scripts/merge_csv_data.py
 
 ## 🌐 部署
 
+### 🌟 在线演示
+
+**🚀 [立即访问在线演示](https://duyananbryce.github.io/setapp-apps-showcase-modern/)**
+
+项目已成功部署到GitHub Pages，您可以直接访问上述链接体验完整功能。
+
 ### 🚀 一键部署（推荐）
 
 使用项目提供的一键部署脚本，支持多种部署平台：
@@ -266,11 +272,25 @@ netlify deploy --prod --dir=dist
 
 #### GitHub Pages部署
 
+**当前部署状态：** ✅ 已部署  
+**访问地址：** https://duyananbryce.github.io/setapp-apps-showcase-modern/
+
+**自动部署流程：**
 项目已配置GitHub Actions自动部署：
 1. 推送代码到GitHub仓库
 2. 在仓库设置中启用GitHub Pages
 3. 选择 'GitHub Actions' 作为部署源
 4. 每次推送到main分支会自动触发部署
+
+**手动部署命令：**
+```bash
+# 构建并部署到GitHub Pages
+npm run deploy:gh-pages
+
+# 或者分步执行
+npm run build
+npx gh-pages -d dist
+```
 
 #### 自托管部署
 
