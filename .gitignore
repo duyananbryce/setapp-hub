@@ -100,3 +100,4 @@ test-results/
 # 归档目录中的某些临时文件
 archive/*.temp
 archive/*.log
+.vercel

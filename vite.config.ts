@@ -11,7 +11,17 @@ export default defineConfig(({ mode }) => {
       react(),
       tsconfigPaths()
     ],
-    base: isProduction ? '/setapp-apps-showcase-modern/' : '/',
+    base: './',
+    build: {
+      assetsDir: 'assets',
+      rollupOptions: {
+        output: {
+          assetFileNames: 'assets/[name]-[hash][extname]',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          entryFileNames: 'assets/[name]-[hash].js'
+        }
+      }
+    },
     esbuild: {
       // 在快速构建模式下跳过类型检查
       target: 'es2020',
