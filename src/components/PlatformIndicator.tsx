@@ -45,17 +45,8 @@ export default function PlatformIndicator({
   };
   
   const getPlatformStyle = (platformName: string) => {
-    if (platformName.includes('Mac')) {
-      return 'bg-gradient-to-r from-neutral-100 to-neutral-200 text-neutral-700 border-neutral-200';
-    } else if (platformName.includes('iOS') || platformName.includes('iPhone')) {
-      return 'bg-gradient-to-r from-primary-100 to-primary-200 text-primary-700 border-primary-200';
-    } else if (platformName.includes('iPad')) {
-      return 'bg-gradient-to-r from-accent-100 to-accent-200 text-accent-700 border-accent-200';
-    } else if (platformName.includes('Web')) {
-      return 'bg-gradient-to-r from-success-100 to-success-200 text-success-700 border-success-200';
-    } else {
-      return 'bg-gradient-to-r from-secondary-100 to-secondary-200 text-secondary-700 border-secondary-200';
-    }
+    // Claude风格的统一平台标签样式
+    return 'bg-neutral-100 text-claude-text border border-claude-border-light';
   };
 
   const getPlatformDetail = (platformName: string) => {
@@ -75,7 +66,7 @@ export default function PlatformIndicator({
         {platforms.map((platformName, index) => (
           <span 
             key={index}
-            className={`inline-flex items-center ${badgeSizeClasses[size]} rounded-full font-medium border shadow-sm ${getPlatformStyle(platformName)}`}
+            className={`inline-flex items-center ${badgeSizeClasses[size]} rounded-lg font-medium shadow-claude ${getPlatformStyle(platformName)}`}
           >
             {getPlatformIcon(platformName)}
             <span className="ml-1.5">{platformName}</span>
@@ -87,31 +78,31 @@ export default function PlatformIndicator({
 
   return (
     <div className="space-y-3">
-      <h4 className="font-semibold text-gray-900 mb-3">平台支持</h4>
+      <h4 className="font-semibold text-claude-text-heading mb-3">平台支持</h4>
       {platforms.map((platformName, index) => {
         const detail = getPlatformDetail(platformName);
         
         return (
-          <div key={index} className="border border-gray-200 rounded-lg p-4">
+          <div key={index} className="border border-claude-border-light rounded-xl p-4">
             <div className="flex items-center mb-3">
-              <span className={`inline-flex items-center ${badgeSizeClasses[size]} rounded-full font-medium border shadow-sm ${getPlatformStyle(platformName)}`}>
+              <span className={`inline-flex items-center ${badgeSizeClasses[size]} rounded-lg font-medium shadow-claude ${getPlatformStyle(platformName)}`}>
                 {getPlatformIcon(platformName)}
                 <span className="ml-1.5">{platformName}</span>
               </span>
             </div>
             
             {detail && (
-              <div className="space-y-2 text-sm text-gray-600">
+              <div className="space-y-2 text-sm text-claude-text-secondary">
                 {detail.minVersion && (
                   <div>
-                    <span className="font-medium">最低版本要求：</span>
+                    <span className="font-medium text-claude-text">最低版本要求：</span>
                     {detail.minVersion}
                   </div>
                 )}
                 
                 {detail.features && detail.features.length > 0 && (
                   <div>
-                    <span className="font-medium">支持功能：</span>
+                    <span className="font-medium text-claude-text">支持功能：</span>
                     <ul className="list-disc list-inside mt-1">
                       {detail.features.map((feature, idx) => (
                         <li key={idx}>{feature}</li>
@@ -122,10 +113,10 @@ export default function PlatformIndicator({
                 
                 {detail.limitations && detail.limitations.length > 0 && (
                   <div>
-                    <span className="font-medium">功能限制：</span>
+                    <span className="font-medium text-claude-text">功能限制：</span>
                     <ul className="list-disc list-inside mt-1">
                       {detail.limitations.map((limitation, idx) => (
-                        <li key={idx} className="text-amber-600">{limitation}</li>
+                        <li key={idx} className="text-claude-accent">{limitation}</li>
                       ))}
                     </ul>
                   </div>

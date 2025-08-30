@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+/* 引入Claude样式系统 */
+@import '../claude-styles.css';
 
 /* 引入 Tailwind 基础样式 */
 @import 'tailwindcss/base';
@@ -8,14 +9,22 @@
 /* 全局基础样式 */
 @layer base {
   :root {
-    /* 现代化的CSS变量 */
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    --blur-backdrop: blur(16px);
+    /* Claude设计系统 CSS变量 */
+    --claude-primary-bg: #FAFAF9;
+    --claude-secondary-bg: #F5F5F5;
+    --claude-card-bg: #FFFFFF;
+    --claude-overlay-bg: rgba(255, 255, 255, 0.95);
+    --claude-text-primary: #2D2D2D;
+    --claude-text-secondary: #666666;
+    --claude-text-heading: #1A1A1A;
+    --claude-text-muted: #999999;
+    --claude-accent-coral: #E07B5F;
+    --claude-accent-orange: #F4A460;
+    --claude-border-light: #E5E5E5;
+    --claude-border-medium: #D1D1D1;
+    --claude-shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --claude-shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --claude-shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.16);
   }
 
   * {
@@ -24,23 +33,17 @@
 
   html {
     @apply scroll-smooth;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 
   body {
-    @apply bg-white text-primary-800 antialiased;
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    font-variation-settings: 'slnt' 0;
-    letter-spacing: -0.014em;
-    line-height: 1.6;
+    @apply bg-claude-bg text-claude-text antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* 现代化的滚动条样式 */
+  /* Claude风格的滚动条 */
   ::-webkit-scrollbar {
     @apply w-1.5;
   }
@@ -50,142 +53,169 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-secondary-400 rounded-full;
+    @apply bg-neutral-300 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-secondary-500;
+    @apply bg-neutral-400;
   }
 }
 
-/* 组件样式 */
+/* Claude设计系统组件样式 */
 @layer components {
-  /* 现代化按钮样式 */
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  /* Claude风格按钮 */
+  .btn-claude-primary {
+    @apply bg-claude-black hover:bg-claude-black-hover text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 shadow-claude-light hover:shadow-claude-medium hover:-translate-y-px focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-claude-text;
   }
 
-  .btn-secondary {
-    @apply bg-white border border-secondary-300 hover:bg-secondary-50 text-primary-800 font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  .btn-claude-secondary {
+    @apply bg-transparent border-2 border-claude-border-medium hover:border-claude-text text-claude-text font-medium py-3 px-6 rounded-lg transition-all duration-200 hover:bg-claude-bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-claude-text;
   }
 
-  .btn-ghost {
-    @apply bg-transparent hover:bg-secondary-100 text-primary-700 hover:text-primary-800 font-medium py-2 px-3 rounded-md transition-colors duration-200;
+  .btn-claude-outline {
+    @apply bg-claude-card border border-claude-border-light hover:border-claude-border-medium text-claude-text font-medium py-2 px-5 rounded-full transition-all duration-200 shadow-claude-light hover:shadow-claude-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-claude-text;
   }
 
-  /* 现代化卡片样式 */
-  .card-modern {
-    @apply bg-white rounded-lg border border-secondary-200 hover:border-secondary-300 transition-colors duration-200;
+  .btn-claude-text {
+    @apply bg-transparent hover:bg-claude-bg-secondary text-claude-text-secondary hover:text-claude-text font-medium py-2 px-3 rounded-md transition-all duration-200;
   }
 
-  .card-glass {
-    @apply bg-white/95 backdrop-blur-sm rounded-lg border border-secondary-200;
+  /* Claude风格卡片 */
+  .card-claude {
+    @apply bg-claude-card rounded-xl p-6 shadow-claude-light border border-claude-border-light transition-all duration-300 hover:shadow-claude-medium hover:-translate-y-0.5;
   }
 
-  /* 现代化输入框样式 */
-  .input-modern {
-    @apply bg-white border border-secondary-300 rounded-lg px-3 py-2.5 text-primary-800 placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200;
+  .card-claude-feature {
+    @apply bg-claude-card rounded-2xl p-8 text-center shadow-claude-light border border-claude-border-light transition-all duration-300 hover:shadow-claude-medium;
   }
 
-  /* 渐变文字效果 */
-  .text-gradient {
-    @apply text-primary-600;
+  /* Claude风格输入框 */
+  .input-claude {
+    @apply w-full border border-claude-border-light rounded-lg px-4 py-3 text-claude-text bg-claude-card transition-all duration-200 focus:outline-none focus:border-claude-text focus:shadow-claude-focus;
   }
 
-  .text-gradient-primary {
-    @apply text-primary-600;
+  .input-claude::placeholder {
+    @apply text-claude-text-muted;
   }
 
-  /* 现代化标签样式 */
-  .badge-modern {
-    @apply inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-secondary-100 text-primary-800 border border-secondary-200;
-  }
-
-  /* 加载动画 */
-  .loading-spinner {
-    @apply animate-spin rounded-full border-2 border-gray-300 border-t-primary-600;
+  /* Claude风格标签 */
+  .badge-claude {
+    @apply inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium bg-neutral-100 text-claude-text border border-claude-border-light;
   }
 }
 
-/* 工具类样式 */
+/* Claude设计系统工具类 */
 @layer utilities {
-  /* 现代化动画效果 */
-  .animate-fade-in {
-    animation: fadeIn 0.6s ease-out forwards;
+  /* Claude风格动画效果 */
+  .animate-claude-fade-in {
+    animation: claudeFadeIn 0.6s ease-out forwards;
   }
 
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out forwards;
+  .animate-claude-slide-up {
+    animation: claudeSlideUp 0.3s ease-out forwards;
   }
 
-  .animate-slide-down {
-    animation: slideDown 0.6s ease-out forwards;
+  .animate-claude-scale {
+    animation: claudeScale 0.2s ease-out forwards;
   }
 
-  .animate-scale-in {
-    animation: scaleIn 0.4s ease-out forwards;
+  /* Claude风格背景 */
+  .bg-claude {
+    background-color: var(--claude-primary-bg);
   }
 
-  .animate-bounce-soft {
-    animation: bounceSoft 0.6s ease-out forwards;
+  .bg-claude-secondary {
+    background-color: var(--claude-secondary-bg);
   }
 
-  .animate-slide-in {
-    animation: slideIn 1s ease-out forwards;
+  .bg-claude-card {
+    background-color: var(--claude-card-bg);
   }
 
-  /* 现代化背景效果 */
-  .bg-mesh {
-    background-image: radial-gradient(circle at 25% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 75% 75%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+  /* Claude文字颜色 */
+  .text-claude-primary {
+    color: var(--claude-text-primary);
   }
 
-  .bg-dots {
-    background-image: radial-gradient(circle, rgba(99, 102, 241, 0.15) 1px, transparent 1px);
-    background-size: 20px 20px;
+  .text-claude-secondary {
+    color: var(--claude-text-secondary);
   }
 
-  /* 现代化边框效果 */
-  .border-gradient {
-    @apply relative;
+  .text-claude-heading {
+    color: var(--claude-text-heading);
   }
 
-  .border-gradient::before {
-    content: '';
-    @apply absolute inset-0 rounded-xl p-[1px] bg-gradient-to-r from-primary-400 via-accent-400 to-secondary-400;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
+  .text-claude-muted {
+    color: var(--claude-text-muted);
   }
 
-  /* 响应式字体大小 */
-  .text-responsive-xl {
-    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  .text-claude-accent {
+    color: var(--claude-accent-coral);
   }
 
-  .text-responsive-lg {
-    @apply text-xl sm:text-2xl md:text-3xl;
+  /* Claude阴影 */
+  .shadow-claude {
+    box-shadow: var(--claude-shadow-light);
   }
 
-  .text-responsive-md {
-    @apply text-lg sm:text-xl md:text-2xl;
+  .shadow-claude-md {
+    box-shadow: var(--claude-shadow-medium);
   }
 
-  /* 现代化间距 */
-  .space-modern {
-    @apply space-y-8 md:space-y-12 lg:space-y-16;
+  .shadow-claude-lg {
+    box-shadow: var(--claude-shadow-heavy);
   }
 
-  /* 玻璃态效果 */
-  .glass {
-    @apply bg-white/20 backdrop-blur-md border border-white/30;
+  /* Claude悬停效果 */
+  .hover-claude-lift {
+    @apply transition-transform duration-200;
   }
 
-  .glass-dark {
-    @apply bg-black/20 backdrop-blur-md border border-white/10;
+  .hover-claude-lift:hover {
+    @apply -translate-y-0.5;
+  }
+
+  /* Claude按钮状态 */
+  .btn-claude-active {
+    @apply scale-95 transition-transform duration-100;
   }
 }
 
-/* 自定义动画关键帧 */
+/* Claude设计系统动画关键帧 */
+@keyframes claudeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes claudeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes claudeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 兼容性动画关键帧 */
 @keyframes fadeIn {
   from {
     opacity: 0;

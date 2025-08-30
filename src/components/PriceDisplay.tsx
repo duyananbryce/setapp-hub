@@ -33,11 +33,11 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({
   if (displayMode === 'compact') {
     return (
       <div className="text-right">
-        <div className="text-lg font-bold text-white">
+        <div className="text-lg font-semibold text-claude-text-heading">
           {formatDisplayPrice(convertedPrice, currentCurrency)}
         </div>
         {basePrice > 0 && (
-          <div className="text-blue-100 text-sm">
+          <div className="text-claude-text-secondary text-sm">
             {currentLocale === 'zh-CN' ? '官方价格' : 
              currentLocale === 'ja-JP' ? '公式価格' : 'Official Price'}
           </div>
@@ -48,20 +48,20 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({
   
   if (displayMode === 'detailed') {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 space-y-3">
-        <div className="flex items-center space-x-2 text-white/80">
+      <div className="bg-neutral-100 rounded-xl p-4 space-y-3 border border-claude-border-light">
+        <div className="flex items-center space-x-2 text-claude-text-secondary">
           <DollarSign className="w-4 h-4" />
           <span className="font-medium">{t('app.price')}</span>
         </div>
         
         <div className="space-y-2">
           {/* 主要价格显示 */}
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-semibold text-claude-text-heading">
             {formatDisplayPrice(convertedPrice, currentCurrency)}
           </div>
           
           {/* 价格描述 */}
-          <div className="text-white/70 text-sm">
+          <div className="text-claude-text-secondary text-sm">
             {basePrice === 0 ? (
               currentLocale === 'zh-CN' ? '完全免费，无需订阅' :
               currentLocale === 'ja-JP' ? '完全無料、購読不要' : 'Completely free, no subscription required'
@@ -74,8 +74,8 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({
         
         {/* 货币转换器 */}
         {showConverter && basePrice > 0 && (
-          <div className="border-t border-white/20 pt-3">
-            <div className="text-xs text-white/60 mb-2">
+          <div className="border-t border-claude-border-light pt-3">
+            <div className="text-xs text-claude-text-muted mb-2">
               {currentLocale === 'zh-CN' ? '汇率换算' :
                currentLocale === 'ja-JP' ? '為替換算' : 'Currency Conversion'}
             </div>
@@ -83,7 +83,7 @@ const PriceDisplay: React.FC<PriceDisplayProps> = ({
               {Object.entries(currencyInfoMap).slice(0, 3).map(([code, info]) => {
                 const convertedAmount = convertPrice(basePrice, baseCurrency, code as any);
                 return (
-                  <div key={code} className="text-center text-white/70">
+                  <div key={code} className="text-center text-claude-text-secondary">
                     <div className="font-medium">{code}</div>
                     <div>{formatDisplayPrice(convertedAmount, code)}</div>
                   </div>

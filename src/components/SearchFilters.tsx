@@ -34,7 +34,7 @@ export default function SearchFilters() {
   };
   
   return (
-    <div className="bg-white">
+    <div className="bg-claude-card border-b border-claude-border-light">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* 主搜索栏 */}
@@ -42,7 +42,7 @@ export default function SearchFilters() {
           {/* 搜索框 */}
           <div className="flex-1 max-w-lg">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-secondary-500 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-claude-text-muted w-5 h-5" />
               <input
                 type="text"
                 placeholder={locale === 'zh-CN' ? '搜索应用名称或功能描述...' :
@@ -50,7 +50,7 @@ export default function SearchFilters() {
                            'Search app names or features...'}
                 value={filters.searchTerm}
                 onChange={handleSearchChange}
-                className="w-full pl-10 pr-4 py-3 bg-white border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 placeholder-secondary-500 text-primary-800"
+                className="input-claude pl-10"
               />
             </div>
           </div>
@@ -62,7 +62,7 @@ export default function SearchFilters() {
               <select
                 value={filters.platform}
                 onChange={handlePlatformChange}
-                className="px-4 py-3 bg-white border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-primary-800 appearance-none pr-10 min-w-[120px]"
+                className="input-claude pr-10 min-w-[120px]"
               >
                 <option value="all">
                   {locale === 'zh-CN' ? '所有平台' :
@@ -74,7 +74,7 @@ export default function SearchFilters() {
                 <option value="Web">Web</option>
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <svg className="w-4 h-4 text-secondary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-claude-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -86,7 +86,7 @@ export default function SearchFilters() {
                 <select
                   value={filters.sortBy}
                   onChange={handleSortChange}
-                  className="px-4 py-3 bg-white border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200 text-primary-800 appearance-none pr-10 min-w-[100px]"
+                  className="input-claude pr-10 min-w-[100px]"
                 >
                   <option value="name">
                     {locale === 'zh-CN' ? '按名称' :
@@ -110,7 +110,7 @@ export default function SearchFilters() {
                   </option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg className="w-4 h-4 text-secondary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-claude-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
@@ -118,14 +118,14 @@ export default function SearchFilters() {
               
               <button
                 onClick={toggleSortOrder}
-                className="p-3 bg-white border border-secondary-300 rounded-lg hover:bg-secondary-50 transition-colors duration-200"
+                className="p-3 bg-claude-card border border-claude-border-light rounded-lg hover:bg-neutral-100 transition-colors duration-200"
                 title={filters.sortOrder === 'asc' ? 
                   (locale === 'zh-CN' ? '升序' : locale === 'ja-JP' ? '昇順' : 'Ascending') :
                   (locale === 'zh-CN' ? '降序' : locale === 'ja-JP' ? '降順' : 'Descending')}
               >
                 {filters.sortOrder === 'asc' ? 
-                  <SortAsc className="w-4 h-4 text-primary-700" /> : 
-                  <SortDesc className="w-4 h-4 text-primary-700" />
+                  <SortAsc className="w-4 h-4 text-claude-text" /> : 
+                  <SortDesc className="w-4 h-4 text-claude-text" />
                 }
               </button>
             </div>
@@ -133,10 +133,10 @@ export default function SearchFilters() {
             {/* 高级筛选按钮 */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center space-x-2 px-4 py-3 rounded-lg transition-colors duration-200 font-medium ${
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2 ${
                 showFilters 
-                  ? 'bg-primary-600 text-white' 
-                  : 'bg-white text-primary-800 border border-secondary-300 hover:bg-secondary-50'
+                  ? 'bg-primary-600 text-white border border-primary-600' 
+                  : 'bg-white text-neutral-700 border border-neutral-300 hover:bg-neutral-50'
               }`}
             >
               <Filter className="w-4 h-4" />
@@ -151,14 +151,14 @@ export default function SearchFilters() {
         
         {/* 高级筛选面板 */}
         {showFilters && (
-          <div className="mt-6 p-6 bg-secondary-50 rounded-lg border border-secondary-200">
+          <div className="mt-6 p-6 bg-neutral-100 rounded-xl border border-claude-border-light">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* 价格范围 */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-primary-800 mb-3">
+                <label className="block text-sm font-medium text-claude-text-heading mb-3">
                   {locale === 'zh-CN' ? '最高价格' :
                    locale === 'ja-JP' ? '最高価格' :
-                   'Max Price'}: <span className="text-primary-800 font-semibold">${filters.priceRange[1]}</span>
+                   'Max Price'}: <span className="text-claude-accent font-semibold">${filters.priceRange[1]}</span>
                 </label>
                 <div className="relative">
                   <input
@@ -168,13 +168,13 @@ export default function SearchFilters() {
                     step="10"
                     value={filters.priceRange[1]}
                     onChange={handlePriceRangeChange}
-                    className="w-full h-2 bg-secondary-200 rounded-lg appearance-none cursor-pointer transition-all duration-200"
+                    className="w-full h-2 bg-claude-border-light rounded-lg appearance-none cursor-pointer transition-all duration-200"
                     style={{
-                      background: `linear-gradient(to right, #64748b 0%, #64748b ${(filters.priceRange[1] / 500) * 100}%, #e5e7eb ${(filters.priceRange[1] / 500) * 100}%, #e5e7eb 100%)`
+                      background: `linear-gradient(to right, #E07B5F 0%, #E07B5F ${(filters.priceRange[1] / 500) * 100}%, #E5E5E5 ${(filters.priceRange[1] / 500) * 100}%, #E5E5E5 100%)`
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-xs text-secondary-600 mt-2">
+                <div className="flex justify-between text-xs text-claude-text-muted mt-2">
                   <span className="font-medium">$0</span>
                   <span className="font-medium">$500+</span>
                 </div>
@@ -182,10 +182,10 @@ export default function SearchFilters() {
               
               {/* 最低评分 */}
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-primary-800 mb-3">
+                <label className="block text-sm font-medium text-claude-text-heading mb-3">
                   {locale === 'zh-CN' ? '最低评分' :
                    locale === 'ja-JP' ? '最低評価' :
-                   'Min Rating'}: <span className="text-primary-800 font-semibold">{filters.minRating}</span>
+                   'Min Rating'}: <span className="text-claude-accent font-semibold">{filters.minRating}</span>
                 </label>
                 <div className="relative">
                   <input
@@ -195,13 +195,13 @@ export default function SearchFilters() {
                     step="10"
                     value={filters.minRating}
                     onChange={handleRatingChange}
-                    className="w-full h-2 bg-secondary-200 rounded-lg appearance-none cursor-pointer transition-all duration-200"
+                    className="w-full h-2 bg-claude-border-light rounded-lg appearance-none cursor-pointer transition-all duration-200"
                     style={{
-                      background: `linear-gradient(to right, #64748b 0%, #64748b ${(filters.minRating / 100) * 100}%, #e5e7eb ${(filters.minRating / 100) * 100}%, #e5e7eb 100%)`
+                      background: `linear-gradient(to right, #E07B5F 0%, #E07B5F ${(filters.minRating / 100) * 100}%, #E5E5E5 ${(filters.minRating / 100) * 100}%, #E5E5E5 100%)`
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-xs text-secondary-600 mt-2">
+                <div className="flex justify-between text-xs text-claude-text-muted mt-2">
                   <span className="font-medium">0</span>
                   <span className="font-medium">100</span>
                 </div>
@@ -219,7 +219,7 @@ export default function SearchFilters() {
                   sortBy: 'name',
                   sortOrder: 'asc'
                 })}
-                className="px-4 py-2 text-sm font-medium text-primary-800 bg-white border border-secondary-300 rounded-lg hover:bg-secondary-50 transition-colors duration-200"
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-white text-neutral-700 border border-neutral-300 hover:bg-neutral-50"
               >
                 {locale === 'zh-CN' ? '重置筛选' :
                  locale === 'ja-JP' ? 'フィルターをリセット' :

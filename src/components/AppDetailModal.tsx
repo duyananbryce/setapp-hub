@@ -4,6 +4,7 @@ import { App } from '@/types/app';
 import { getAppIcon } from '@/utils/dataLoader';
 import { useTranslation } from 'react-i18next';
 import { useI18nStore, detectDefaultCurrency } from '@/lib/currency';
+import { getLocalizedDescription } from '@/utils/appDescriptionTranslator';
 import { 
   extractCoreFeatures, 
   generateTechnicalFeatures, 
@@ -104,15 +105,15 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
-          <Star key={i} className="w-5 h-5 fill-primary-600 text-primary-600" />
+          <Star key={i} className="w-5 h-5 fill-claude-accent text-claude-accent" />
         );
       } else if (i === fullStars && hasHalfStar) {
         stars.push(
-          <Star key={i} className="w-5 h-5 fill-primary-400 text-primary-400" />
+          <Star key={i} className="w-5 h-5 fill-claude-accent/60 text-claude-accent/60" />
         );
       } else {
         stars.push(
-          <Star key={i} className="w-5 h-5 text-secondary-400" />
+          <Star key={i} className="w-5 h-5 text-neutral-300" />
         );
       }
     }
@@ -129,23 +130,23 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* 背景遮罩 */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black bg-opacity-20 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
       
       {/* 模态框内容 */}
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div className="relative bg-claude-card rounded-2xl shadow-claude-heavy max-w-4xl w-full max-h-[90vh] overflow-hidden border border-claude-border-light">
           {/* 关闭按钮 */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 z-20 p-2 bg-secondary-100 hover:bg-secondary-200 rounded-lg transition-colors duration-200"
+            className="absolute top-6 right-6 z-50 p-2 bg-neutral-100 hover:bg-neutral-200 rounded-lg transition-colors duration-200 shadow-lg"
           >
-            <X className="w-5 h-5 text-primary-700" />
+            <X className="w-5 h-5 text-claude-text" />
           </button>
           
           {/* 头部区域 */}
-          <div className="bg-white border-b border-secondary-200">
+          <div className="bg-claude-card border-b border-claude-border-light">
             <div className="p-8">
               <div className="flex items-start space-x-6">
                 {/* 应用信息 */}
@@ -154,7 +155,7 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                     <img 
                       src={iconSrc}
                       alt={app.名称}
-                      className="w-20 h-20 rounded-lg"
+                      className="w-20 h-20 rounded-xl"
                       onError={handleImageError}
                     />
                   </div>
@@ -162,17 +163,17 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                   <div className="flex-1 space-y-4">
                     {/* 应用名称和评分 */}
                     <div>
-                      <h1 className="text-2xl font-semibold mb-2 text-primary-800">{app.名称}</h1>
+                      <h1 className="text-2xl font-semibold mb-2 text-claude-text-heading">{app.名称}</h1>
                       <div className="flex items-center space-x-4">
                         <div className="flex items-center space-x-2">
                           <div className="flex items-center space-x-1">
                             {renderStars(app.评分)}
                           </div>
-                          <span className="text-sm text-secondary-600">({app.评分}/100)</span>
+                          <span className="text-sm text-claude-text-secondary">({app.评分}/100)</span>
                         </div>
                         
                         {app.开发者 && (
-                          <div className="text-sm text-secondary-600">
+                          <div className="text-sm text-claude-text-secondary">
                             开发者: {app.开发者}
                           </div>
                         )}
@@ -180,27 +181,27 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                     </div>
                     
                     {/* 功能描述 */}
-                    <p className="text-base text-secondary-700 leading-relaxed max-w-2xl">
-                      {app.功能描述}
+                    <p className="text-base text-claude-text leading-relaxed max-w-2xl">
+                      {getLocalizedDescription(app.功能描述, app.名称, locale)}
                     </p>
                   </div>
                 </div>
                 
                 {/* 价格显示 */}
                 <div className="w-72">
-                  <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
-                    <h3 className="text-base font-medium mb-3 text-primary-800">
+                  <div className="bg-neutral-100 rounded-xl p-6 border border-claude-border-light">
+                    <h3 className="text-base font-medium mb-3 text-claude-text-heading">
                       {locale === 'zh-CN' ? '价格信息' :
                        locale === 'ja-JP' ? '価格情報' :
                        'Price Information'}
                     </h3>
-                    <div className="text-xl font-semibold mb-2 text-primary-800">
+                    <div className="text-xl font-semibold mb-2 text-claude-text-heading">
                       {typeof app.官方订阅价格 === 'number' && app.官方订阅价格 > 0 
                         ? `$${app.官方订阅价格}/月` 
                         : 'Setapp 包含'
                       }
                     </div>
-                    <p className="text-sm text-secondary-600">
+                    <p className="text-sm text-claude-text-secondary">
                       {locale === 'zh-CN' ? '通过 Setapp 订阅使用' :
                        locale === 'ja-JP' ? 'Setappサブスクリプションで利用' :
                        'Available through Setapp subscription'}
@@ -218,14 +219,14 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* 核心功能 */}
-                <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
+                <div className="bg-neutral-100 rounded-xl p-6 border border-claude-border-light">
                   <div className="flex items-center mb-4">
-                    <div className="p-2 bg-primary-600 rounded-lg mr-3">
+                    <div className="p-2 bg-claude-black rounded-lg mr-3">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       </svg>
                     </div>
-                    <h3 className="text-base font-medium text-primary-800">
+                    <h3 className="text-base font-medium text-claude-text-heading">
                       {locale === 'zh-CN' ? '核心功能' :
                        locale === 'ja-JP' ? 'コア機能' :
                        'Core Features'}
@@ -234,22 +235,22 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                   <div className="space-y-2">
                     {coreFeatures.map((feature, index) => (
                       <div key={index} className="flex items-start space-x-2">
-                        <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-sm text-secondary-700">{feature}</span>
+                        <div className="w-1.5 h-1.5 bg-claude-accent rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-claude-text">{feature}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* 技术特点 */}
-                <div className="bg-secondary-50 rounded-lg p-6 border border-secondary-200">
+                <div className="bg-neutral-100 rounded-xl p-6 border border-claude-border-light">
                   <div className="flex items-center mb-4">
-                    <div className="p-2 bg-accent-600 rounded-lg mr-3">
+                    <div className="p-2 bg-claude-accent rounded-lg mr-3">
                       <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                       </svg>
                     </div>
-                    <h3 className="text-base font-medium text-primary-800">
+                    <h3 className="text-base font-medium text-claude-text-heading">
                       {locale === 'zh-CN' ? '技术特点' :
                        locale === 'ja-JP' ? '技術的特徴' :
                        'Technical Features'}
@@ -258,8 +259,8 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                   <div className="space-y-2">
                     {technicalFeatures.map((feature, index) => (
                       <div key={index} className="flex items-start space-x-2">
-                        <div className="w-1.5 h-1.5 bg-accent-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-sm text-secondary-700">{feature}</span>
+                        <div className="w-1.5 h-1.5 bg-claude-accent rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-claude-text">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -267,15 +268,15 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
               </div>
               
               {/* 操作按钮 */}
-              <div className="flex items-center justify-between pt-6 border-t border-secondary-200">
+              <div className="flex items-center justify-between pt-6 border-t border-claude-border-light">
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm text-secondary-600">
+                  <span className="text-sm text-claude-text-secondary">
                     {locale === 'zh-CN' ? '平台支持' :
                      locale === 'ja-JP' ? 'プラットフォームサポート' :
                      'Platform Support'}: {app.平台}
                   </span>
                   {app.系统要求 && (
-                    <span className="text-sm text-secondary-600">
+                    <span className="text-sm text-claude-text-secondary">
                       {locale === 'zh-CN' ? '系统要求' :
                        locale === 'ja-JP' ? 'システム要件' :
                        'System Requirements'}: {app.系统要求}
@@ -289,7 +290,8 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                       href={app.官方网站}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 px-4 py-2 bg-white border border-secondary-300 text-primary-800 rounded-lg hover:bg-secondary-50 transition-colors duration-200"
+                      className="px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-white border border-neutral-300 hover:bg-neutral-50 flex items-center space-x-2"
+                      style={{ color: '#F4A460' }}
                     >
                       <Globe className="w-4 h-4" />
                       <span>
@@ -305,7 +307,8 @@ export default function AppDetailModal({ app, isOpen, onClose }: AppDetailModalP
                       href={app.Setapp链接}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors duration-200"
+                      className="btn-claude-primary flex items-center space-x-2"
+                      style={{ backgroundColor: '#F4A460', borderColor: '#F4A460' }}
                     >
                       <ExternalLink className="w-4 h-4" />
                       <span>

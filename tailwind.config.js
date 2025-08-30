@@ -7,61 +7,82 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Claude 风格主色调 - 现代中性灰蓝色系
+        // Claude设计系统 - 主要背景色
+        'claude-bg': '#FAFAF9',        // 主背景色 - 温暖的米白色
+        'claude-bg-secondary': '#F5F5F5',  // 次要背景色 - 浅灰色
+        'claude-card': '#FFFFFF',       // 卡片背景色 - 纯白
+        'claude-overlay': 'rgba(255, 255, 255, 0.95)', // 半透明背景
+        
+        // Claude设计系统 - 文字颜色
+        'claude-text': '#2D2D2D',       // 主文字颜色 - 深灰色
+        'claude-text-secondary': '#666666', // 次要文字颜色 - 中灰色
+        'claude-text-heading': '#1A1A1A',   // 标题文字 - 近黑色
+        'claude-text-muted': '#999999',  // 弱化文字 - 浅灰色
+        
+        // Claude设计系统 - 强调色
+        'claude-accent': '#E07B5F',     // 珊瑚色强调色
+        'claude-accent-orange': '#F4A460', // 橙色强调色
+        'claude-black': '#000000',      // 主按钮黑色
+        'claude-black-hover': '#333333', // 按钮悬停色
+        
+        // Claude设计系统 - 边框色
+        'claude-border-light': '#E5E5E5', // 浅色边框
+        'claude-border-medium': '#D1D1D1', // 中等边框
+        'claude-border-dark': '#B8B8B8',   // 深色边框
+        
+        // 保留原有颜色系统以确保兼容性
         primary: {
-          50: '#f8fafc',    // 极浅灰蓝
-          100: '#f1f5f9',   // 浅灰蓝
-          200: '#e2e8f0',   // 中浅灰蓝
-          300: '#cbd5e1',   // 中灰蓝
-          400: '#94a3b8',   // 中深灰蓝
-          500: '#64748b',   // 主灰蓝色 - Claude风格
-          600: '#475569',   // 深灰蓝
-          700: '#334155',   // 较深灰蓝
-          800: '#1e293b',   // 深灰蓝
-          900: '#0f172a',   // 极深灰蓝
-          950: '#020617',   // 最深灰蓝
+          50: '#FAFAF9',    // 使用Claude主背景色
+          100: '#F5F5F5',   // 使用Claude次要背景色
+          200: '#E5E5E5',   // 使用Claude边框色
+          300: '#D1D1D1',   // 使用Claude中等边框
+          400: '#999999',   // 使用Claude弱化文字
+          500: '#666666',   // 使用Claude次要文字
+          600: '#2D2D2D',   // 使用Claude主文字
+          700: '#1A1A1A',   // 使用Claude标题文字
+          800: '#000000',   // 使用Claude黑色
+          900: '#000000',   // 使用Claude黑色
+          950: '#000000',   // 使用Claude黑色
         },
-        // 优化的辅助色 - 纯净灰色系
         secondary: {
-          50: '#f9fafb',    // 极浅灰
-          100: '#f3f4f6',   // 浅灰
-          200: '#e5e7eb',   // 中浅灰
-          300: '#d1d5db',   // 中灰
-          400: '#9ca3af',   // 中深灰
-          500: '#6b7280',   // 主灰色
-          600: '#4b5563',   // 深灰
-          700: '#374151',   // 较深灰
-          800: '#1f2937',   // 深灰
-          900: '#111827',   // 极深灰
-          950: '#030712',   // 最深灰
+          50: '#FAFAF9',    
+          100: '#F5F5F5',   
+          200: '#E5E5E5',   
+          300: '#D1D1D1',   
+          400: '#999999',   
+          500: '#666666',   
+          600: '#2D2D2D',   
+          700: '#1A1A1A',   
+          800: '#000000',   
+          900: '#000000',   
+          950: '#000000',   
         },
-        // 重新设计的强调色 - 温和蓝色系
         accent: {
-          50: '#eff6ff',    // 极浅蓝
-          100: '#dbeafe',   // 浅蓝
-          200: '#bfdbfe',   // 中浅蓝
-          300: '#93c5fd',   // 中蓝
-          400: '#60a5fa',   // 中深蓝
-          500: '#3b82f6',   // 主蓝色
-          600: '#2563eb',   // 深蓝
-          700: '#1d4ed8',   // 较深蓝
-          800: '#1e40af',   // 深蓝
-          900: '#1e3a8a',   // 极深蓝
-          950: '#172554',   // 最深蓝
+          50: '#F4A460',    
+          100: '#F4A460',   
+          200: '#E07B5F',   
+          300: '#E07B5F',   
+          400: '#E07B5F',   
+          500: '#E07B5F',   
+          600: '#E07B5F',   
+          700: '#E07B5F',   
+          800: '#E07B5F',   
+          900: '#E07B5F',   
+          950: '#E07B5F',   
         },
-        // Claude风格背景色系 - 纯净白色系
+        // Claude风格中性色系
         neutral: {
-          50: '#ffffff',    // 纯白
-          100: '#fefefe',   // 极浅白
-          200: '#fafafa',   // 浅白
-          300: '#f5f5f5',   // 中浅白
-          400: '#e5e5e5',   // 中白
-          500: '#d4d4d4',   // 主白色
-          600: '#a3a3a3',   // 深白
-          700: '#737373',   // 较深白
-          800: '#525252',   // 深白
-          900: '#404040',   // 极深白
-          950: '#262626',   // 最深白
+          50: '#FAFAF9',    // Claude主背景
+          100: '#F5F5F5',   // Claude次要背景
+          200: '#E5E5E5',   // Claude浅边框
+          300: '#D1D1D1',   // Claude中等边框
+          400: '#B8B8B8',   // Claude深边框
+          500: '#999999',   // Claude弱化文字
+          600: '#666666',   // Claude次要文字
+          700: '#2D2D2D',   // Claude主文字
+          800: '#1A1A1A',   // Claude标题文字
+          900: '#000000',   // Claude黑色
+          950: '#000000',   // Claude黑色
         },
         // 优化的功能性色彩 - 更低饱和度，更温和
         success: {
@@ -105,10 +126,10 @@ export default {
         },
       },
       fontFamily: {
-        // Claude风格字体系统
-        'sans': ['Inter', 'Libre Franklin', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        'display': ['Fraunces', 'Inter', 'system-ui', 'sans-serif'],
-        'cal': ['Cal Sans', 'Inter', 'sans-serif'],
+        // Claude设计系统字体
+        'claude': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
+        'sans': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
+        'display': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         'mono': ['JetBrains Mono', 'Monaco', 'Cascadia Code', 'Segoe UI Mono', 'Roboto Mono', 'monospace'],
       },
       fontSize: {
@@ -186,6 +207,12 @@ export default {
         '5xl': '2.5rem',   // 40px
       },
       boxShadow: {
+        // Claude设计系统阴影
+        'claude-light': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'claude-medium': '0 4px 16px rgba(0, 0, 0, 0.12)',
+        'claude-heavy': '0 8px 32px rgba(0, 0, 0, 0.16)',
+        'claude-focus': '0 0 0 3px rgba(45, 45, 45, 0.1)',
+        // 保留原有阴影以确保兼容性
         'soft': '0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
         'medium': '0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
         'large': '0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
